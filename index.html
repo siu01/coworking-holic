@@ -6,570 +6,705 @@
   <title>コワーキングホリック | 吉永亮 著</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --orange: #F36E21;
-      --graphite: #333333;
-      --blue: #00A0E9;
+      --ink: #1F1F1F;
+      --ink-2: #444444;
+      --ink-3: #888888;
       --white: #FFFFFF;
-      --mist: #F8F8F8;
+      --bg: #FAFAF8;
+      --bg-dark: #1A1A1A;
+      --border: rgba(0,0,0,0.09);
     }
     html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
-      font-family: 'Noto Sans JP', 'Montserrat', sans-serif;
-      color: var(--graphite);
+      font-family: 'Noto Sans JP', sans-serif;
+      color: var(--ink);
       background: var(--white);
       overflow-x: hidden;
-      max-width: 100vw;
+      -webkit-font-smoothing: antialiased;
     }
-    .reveal {
-      opacity: 0; transform: translateY(36px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-    /* ══ HERO ══ */
-    .hero {
-      min-height: 100vh;
-      background: #FAFAF7;
-      display: flex; align-items: center;
-      position: relative; overflow: hidden;
+    /* ── Scroll Reveal ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+    .container--narrow { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+
+    /* ══════════════════════
+       NAV
+    ══════════════════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 20px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(0,0,0,0.06);
+      transition: background 0.3s;
     }
-    .hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 70% 50%, rgba(243,110,33,0.07) 0%, transparent 60%);
-      pointer-events: none;
+    .nav-logo {
+      font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700;
+      letter-spacing: 0.12em; color: var(--ink); text-decoration: none;
     }
-    .hero-inner {
-      position: relative; z-index: 1;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 60px; align-items: center;
-      padding: 100px 0 80px;
+    .nav-logo span { color: var(--orange); }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--ink); color: var(--white);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 13px; font-weight: 700; padding: 10px 22px;
+      border-radius: 100px; text-decoration: none;
+      transition: opacity 0.2s;
     }
-    .hero-eyebrow {
-      display: inline-block; background: var(--graphite); color: var(--white);
-      font-size: 12px; font-weight: 700; letter-spacing: 0.15em;
-      padding: 6px 16px; border-radius: 100px; margin-bottom: 24px;
-      font-family: 'Montserrat', sans-serif;
+    .nav-cta:hover { opacity: 0.75; }
+
+    /* ══════════════════════
+       HERO
+    ══════════════════════ */
+    .hero {
+      padding: 160px 32px 100px;
+      background: var(--white);
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.2em; color: var(--ink-3);
+      margin-bottom: 40px;
+    }
+    .hero-label::before, .hero-label::after {
+      content: ''; display: block; width: 32px; height: 1px; background: var(--border);
     }
     .hero-title {
-      font-size: clamp(52px, 8vw, 86px); font-weight: 900;
-      line-height: 1.05; letter-spacing: -0.02em; color: var(--graphite); margin-bottom: 8px;
+      font-family: 'Noto Serif JP', serif; font-size: clamp(56px, 9vw, 100px);
+      font-weight: 900; line-height: 1.05; letter-spacing: -0.02em;
+      color: var(--ink); margin-bottom: 16px;
     }
     .hero-title-en {
-      font-family: 'Montserrat', sans-serif; font-size: clamp(17px, 2.4vw, 25px);
-      font-weight: 700; color: var(--orange); letter-spacing: 0.06em; margin-bottom: 28px;
+      font-family: 'Playfair Display', serif; font-size: clamp(20px, 3vw, 30px);
+      font-weight: 700; font-style: italic; color: var(--orange);
+      letter-spacing: 0.02em; margin-bottom: 48px;
     }
-    .hero-copy { font-size: 17px; line-height: 2; color: var(--graphite); margin-bottom: 14px; max-width: 480px; font-weight: 500; }
-    .hero-copy strong { color: var(--orange); }
-    .hero-copy-sub { font-size: 15px; line-height: 1.9; color: rgba(51,51,51,0.72); margin-bottom: 36px; max-width: 480px; }
-    .hero-author { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; }
-    .hero-author-label { font-size: 12px; font-weight: 500; color: rgba(51,51,51,0.6); letter-spacing: 0.1em; }
-    .hero-author-divider { width: 1px; height: 24px; background: rgba(51,51,51,0.3); }
-    .hero-author-name { font-size: 22px; font-weight: 700; }
-    .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
-
+    .hero-book-wrap {
+      display: flex; justify-content: center;
+      margin: 0 auto 56px; position: relative;
+    }
+    .hero-book-toggle {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      perspective: 1400px;
+    }
+    .hero-book-toggle:focus-visible {
+      outline: 2px solid rgba(243,110,33,0.5);
+      outline-offset: 8px;
+      border-radius: 10px;
+    }
+    .hero-book {
+      width: clamp(200px, 28vw, 320px);
+      aspect-ratio: 3 / 4;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(.16,1,.3,1), box-shadow 0.6s ease;
+      border-radius: 6px;
+      box-shadow:
+        0 4px 6px rgba(0,0,0,0.04),
+        0 12px 32px rgba(0,0,0,0.10),
+        0 40px 80px rgba(0,0,0,0.10);
+    }
+    .hero-book-toggle:hover .hero-book {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+    }
+    .hero-book-toggle.is-flipped .hero-book {
+      transform: rotateY(180deg);
+    }
+    .hero-book-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--white);
+    }
+    .hero-book-face img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-book-back {
+      transform: rotateY(180deg);
+    }
+    .hero-book-hint {
+      position: absolute;
+      left: 50%;
+      bottom: -30px;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: var(--ink-3);
+      white-space: nowrap;
+    }
+    .hero-copy {
+      font-size: 18px; line-height: 2; color: var(--ink-2);
+      max-width: 560px; margin: 0 auto 40px;
+    }
+    .hero-copy strong { color: var(--ink); font-weight: 700; }
+    .hero-author {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; margin-bottom: 48px;
+      color: var(--ink-3); font-size: 14px;
+    }
+    .hero-author-divider { width: 24px; height: 1px; background: var(--border); }
+    .hero-author-name { font-size: 18px; font-weight: 700; color: var(--ink); }
+    .hero-price {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 28px; font-weight: 700; color: var(--ink);
+      margin-bottom: 32px;
+    }
+    .hero-price span { font-size: 14px; font-weight: 500; color: var(--ink-3); margin-left: 4px; }
+    .hero-cta { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
     .btn-primary {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: var(--orange); color: var(--white);
-      font-size: 16px; font-weight: 700; padding: 18px 40px;
-      border-radius: 100px; text-decoration: none; letter-spacing: 0.04em;
-      transition: opacity 0.2s, transform 0.2s;
-      box-shadow: 0 8px 32px rgba(243,110,33,0.4);
-    }
-    .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
-    .btn-ghost {
       display: inline-flex; align-items: center; gap: 8px;
-      border: 2px solid var(--orange); color: var(--orange);
-      font-size: 15px; font-weight: 700; padding: 16px 32px;
-      border-radius: 100px; text-decoration: none; background: transparent;
-      transition: background 0.2s, color 0.2s;
+      background: var(--orange); color: var(--white);
+      font-size: 15px; font-weight: 700; padding: 16px 36px;
+      border-radius: 100px; text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 4px 20px rgba(243,110,33,0.35);
     }
-    .btn-ghost:hover { background: var(--orange); color: var(--white); }
-
-    .hero-book { display: flex; justify-content: center; align-items: center; }
-    .book-cover-img {
-      width: 300px; max-width: 100%; border-radius: 8px;
-      box-shadow: 20px 30px 80px rgba(0,0,0,0.3);
-      transform: perspective(800px) rotateY(-6deg);
-      transition: transform 0.4s ease; display: block; object-fit: cover;
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid var(--border); color: var(--ink-2);
+      font-size: 15px; font-weight: 500; padding: 15px 32px;
+      border-radius: 100px; text-decoration: none;
+      background: var(--white);
+      transition: border-color 0.2s, color 0.2s;
     }
-    .book-cover-img:hover { transform: perspective(800px) rotateY(0deg) scale(1.03); }
+    .btn-secondary:hover { border-color: var(--ink); color: var(--ink); }
 
-    .scroll-indicator {
-      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-      color: rgba(51,51,51,0.5); font-size: 10px; letter-spacing: 0.14em;
-      font-family: 'Montserrat', sans-serif; font-weight: 600;
+    /* ══════════════════════
+       MARQUEE
+    ══════════════════════ */
+    .marquee { background: var(--bg-dark); padding: 20px 0; overflow: hidden; width: 100%; }
+    .marquee-track {
+      display: flex; gap: 48px; white-space: nowrap;
+      animation: marquee 28s linear infinite; width: max-content;
     }
-    .scroll-indicator span { animation: bounce 1.8s infinite; }
-    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
-
-    /* ══ BAND ══ */
-    .band { background: var(--graphite); padding: 26px 0; overflow: hidden; width: 100%; }
-    .band-track { display: flex; gap: 56px; white-space: nowrap; animation: marquee 22s linear infinite; width: max-content; }
-    .band-item { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; color:rgba(255,255,255,0.4); flex-shrink:0; }
-    .band-item.accent { color: var(--orange); }
+    .marquee-item {
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.22em; color: rgba(255,255,255,0.3); flex-shrink: 0;
+    }
+    .marquee-item.hi { color: rgba(243,110,33,0.8); }
     @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-    /* ══ SECTIONS ══ */
-    .section { padding: 100px 0; }
-    .section-alt { background: var(--mist); }
-    .section-title {
-      font-size: 32px; font-weight: 700; color: var(--graphite);
-      padding-bottom: 14px; border-bottom: 3px solid var(--orange);
-      display: inline-block; margin-bottom: 48px; letter-spacing: 0.03em;
-    }
-    .section-title-center {
-      text-align: center; display: block; border-bottom: none;
-      position: relative; margin-bottom: 56px;
-    }
-    .section-title-center::after {
-      content: ''; display: block; width: 56px; height: 4px;
-      background: var(--orange); border-radius: 2px; margin: 14px auto 0;
-    }
+    /* ══════════════════════
+       SECTION SHELL
+    ══════════════════════ */
+    .section { padding: 120px 0; }
+    .section-bg { background: var(--bg); }
+    .section-dark { background: var(--bg-dark); }
 
-    /* ══ INTRO ══ */
-    .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-    .intro-text p { font-size: 16px; line-height: 1.95; margin-bottom: 20px; }
-    .intro-text p:last-child { margin-bottom: 0; }
-    .intro-text strong { color: var(--orange); }
-    .theme-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
-    .theme-item {
-      display: flex; gap: 16px; align-items: flex-start;
-      background: var(--white); border-radius: 12px; padding: 22px 18px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    .label {
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.2em; color: var(--orange); margin-bottom: 20px;
     }
-    .theme-icon {
-      width: 38px; height: 38px; border-radius: 10px;
-      background: var(--mist);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 17px; flex-shrink: 0;
+    .label-muted {
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.2em; color: var(--ink-3); margin-bottom: 20px;
     }
-    .theme-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-    .theme-desc { font-size: 14px; line-height: 1.7; color: rgba(51,51,51,0.7); }
+    h2.display {
+      font-family: 'Noto Serif JP', serif; font-size: clamp(32px, 5vw, 52px);
+      font-weight: 900; line-height: 1.2; color: var(--ink); margin-bottom: 24px;
+    }
+    h2.display-white { color: var(--white); }
+    .subtext {
+      font-size: 17px; line-height: 1.9; color: var(--ink-2); max-width: 600px;
+    }
+    .subtext-white { color: rgba(255,255,255,0.65); }
 
-    /* ══ PROBLEM ══ */
-    .quote-section { background: var(--graphite); padding: 100px 0; }
-    .quote-section .section-title { color: var(--white); }
-    .quote-list { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 60px; }
-    .quote-card {
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px; padding: 28px 24px;
+    /* ══════════════════════
+       INTRO / ABOUT
+    ══════════════════════ */
+    .intro-split { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
+    .intro-body p { font-size: 16px; line-height: 2; color: var(--ink-2); margin-bottom: 20px; }
+    .intro-body p strong { color: var(--ink); font-weight: 700; }
+    .theme-stack { display: flex; flex-direction: column; gap: 1px; }
+    .theme-row {
+      display: flex; align-items: flex-start; gap: 20px;
+      padding: 24px 0; border-bottom: 1px solid var(--border);
     }
-    .quote-card::before {
-      content: '"'; font-family:'Montserrat',sans-serif; font-size:48px; font-weight:900;
-      color: var(--orange); line-height:1; display:block; margin-bottom:10px;
+    .theme-row:first-child { border-top: 1px solid var(--border); }
+    .theme-num {
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; color: var(--ink-3); padding-top: 4px; flex-shrink: 0; width: 28px;
     }
-    .quote-card p { font-size:15px; line-height:1.85; color:rgba(255,255,255,0.82); }
-    .quote-answer { text-align:center; }
-    .quote-answer p { font-size:20px; font-weight:700; color:var(--white); line-height:1.8; }
-    .quote-answer strong { color:var(--orange); font-size:26px; }
+    .theme-title { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+    .theme-desc { font-size: 14px; line-height: 1.75; color: var(--ink-3); }
 
-    /* ══ KEYWORDS ══ */
+    /* ══════════════════════
+       PULL QUOTE
+    ══════════════════════ */
+    .pull-section { background: var(--bg-dark); padding: 120px 0; }
+    .pull-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; overflow: hidden; margin-bottom: 80px; }
+    .pull-card { background: var(--bg-dark); padding: 40px 32px; }
+    .pull-text { font-size: 15px; line-height: 1.9; color: rgba(255,255,255,0.75); }
+    .pull-answer { text-align: center; max-width: 700px; margin: 0 auto; }
+    .pull-answer p { font-family: 'Noto Serif JP', serif; font-size: clamp(20px, 3vw, 28px); font-weight: 700; color: var(--white); line-height: 1.7; }
+    .pull-answer strong { color: var(--orange); }
+
+    /* ══════════════════════
+       KEYWORDS
+    ══════════════════════ */
     .keyword-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
     .keyword-card {
-      background: var(--white); border-radius: 12px; padding: 36px 28px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-      transition: transform 0.2s, box-shadow 0.2s;
+      padding: 40px 32px; border: 1px solid var(--border); border-radius: 16px;
+      background: var(--white);
+      transition: border-color 0.2s, transform 0.3s cubic-bezier(.16,1,.3,1);
     }
-    .keyword-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
-    .keyword-label { font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.18em; color:var(--orange); margin-bottom:10px; }
-    .keyword-name { font-size:22px; font-weight:900; margin-bottom:14px; line-height:1.3; }
-    .keyword-desc { font-size:15px; line-height:1.8; color:rgba(51,51,51,0.72); }
+    .keyword-card:hover { border-color: rgba(243,110,33,0.3); transform: translateY(-4px); }
+    .keyword-num {
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.18em; color: var(--ink-3); margin-bottom: 20px;
+    }
+    .keyword-name {
+      font-family: 'Noto Serif JP', serif; font-size: 22px; font-weight: 700;
+      color: var(--ink); margin-bottom: 16px; line-height: 1.3;
+    }
+    .keyword-desc { font-size: 14px; line-height: 1.85; color: var(--ink-3); }
 
-    /* ══ CONTENTS ══ */
+    /* ══════════════════════
+       CONTENTS
+    ══════════════════════ */
+    .chapter-list { border-top: 1px solid var(--border); }
     .chapter-row {
-      display: grid; grid-template-columns: 120px 1fr;
-      border-bottom: 1px solid rgba(0,0,0,0.07);
-      padding: 32px 0; gap: 32px; align-items: start;
-      transition: padding-left 0.15s;
+      display: grid; grid-template-columns: 100px 1fr;
+      gap: 32px; padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+      transition: padding-left 0.2s;
     }
-    .chapter-row:first-child { border-top: 1px solid rgba(0,0,0,0.07); }
-    .chapter-row:hover { padding-left: 12px; }
-    .chapter-num { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.15em; color:var(--orange); padding-top:3px; }
-    .chapter-title { font-size:20px; font-weight:700; margin-bottom:8px; }
-    .chapter-desc { font-size:15px; line-height:1.75; color:rgba(51,51,51,0.7); }
-    .chapter-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
-    .chapter-tag { font-size:12px; font-weight:500; padding:4px 12px; background:rgba(243,110,33,0.1); color:var(--orange); border-radius:100px; }
+    .chapter-row:hover { padding-left: 8px; }
+    .chapter-num {
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.15em; color: var(--ink-3); padding-top: 4px;
+    }
+    .chapter-title { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+    .chapter-desc { font-size: 14px; line-height: 1.8; color: var(--ink-3); }
+    .chapter-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .chapter-tag {
+      font-size: 11px; font-weight: 500; padding: 4px 12px;
+      border: 1px solid var(--border); border-radius: 100px;
+      color: var(--ink-3);
+    }
 
-    /* ══ AUTHOR ══ */
-    .author-inner { display:grid; grid-template-columns:280px 1fr; gap:56px; align-items:start; }
-    .author-photo-wrap { position: relative; }
-    .author-photo {
-      width: 100%; border-radius: 16px; display: block;
-      box-shadow: 0 12px 48px rgba(0,0,0,0.15);
+    /* ══════════════════════
+       AUTHOR
+    ══════════════════════ */
+    .author-split { display: grid; grid-template-columns: 260px 1fr; gap: 72px; align-items: start; }
+    .author-img {
+      width: 100%; border-radius: 12px; display: block;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
       object-fit: cover; aspect-ratio: 1;
     }
+    .author-badge-wrap { margin-top: 16px; text-align: center; }
     .author-badge {
-      position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
-      background: var(--orange); color: var(--white);
-      font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
-      padding: 8px 20px; border-radius: 100px; white-space: nowrap;
-      box-shadow: 0 4px 16px rgba(243,110,33,0.4);
-    }
-    .author-role { font-size:12px; font-weight:700; letter-spacing:0.15em; color:var(--orange); margin-bottom:8px; margin-top: 24px; }
-    .author-name-ja { font-size:36px; font-weight:900; margin-bottom:4px; }
-    .author-name-en { font-family:'Montserrat',sans-serif; font-size:15px; font-weight:600; color:rgba(51,51,51,0.45); letter-spacing:0.1em; margin-bottom:28px; }
-    .author-bio p { font-size:16px; line-height:1.95; margin-bottom:16px; }
-    .grandslam-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--orange); color: var(--white);
-      font-size: 14px; font-weight: 700; padding: 10px 22px;
-      border-radius: 100px; text-decoration: none; margin-bottom: 28px;
-      transition: opacity 0.2s, transform 0.2s;
-      box-shadow: 0 4px 16px rgba(243,110,33,0.35);
-    }
-    .grandslam-link:hover { opacity: 0.85; transform: translateY(-1px); }
-
-    /* ══ SNS ══ */
-    .sns-section { background: var(--graphite); padding: 100px 0; }
-    .sns-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 60px; }
-    .sns-card {
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px; padding: 28px 24px;
-      text-decoration: none; color: var(--white);
-      display: flex; flex-direction: column; gap: 14px;
-      transition: background 0.2s, transform 0.2s, border-color 0.2s;
-    }
-    .sns-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-4px); border-color: rgba(255,255,255,0.25); }
-    .sns-card-top { display: flex; align-items: center; gap: 14px; }
-    .sns-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .sns-name { font-size: 16px; font-weight: 700; }
-    .sns-handle { font-size: 13px; color: rgba(255,255,255,0.5); font-family: 'Montserrat', sans-serif; }
-    .sns-desc { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.65); }
-    .sns-arrow { margin-left: auto; opacity: 0.4; transition: opacity 0.2s, transform 0.2s; }
-    .sns-card:hover .sns-arrow { opacity: 0.9; transform: translateX(3px); }
-
-    /* Twitter embed area */
-    .twitter-embed-wrap {
-      max-width: 860px; margin: 0 auto;
-    }
-    .twitter-embed-title {
-      font-size: 18px; font-weight: 700; color: var(--white);
-      margin-bottom: 24px; text-align: center; letter-spacing: 0.03em;
-    }
-    .twitter-embed-title span { color: var(--orange); }
-    .twitter-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .twitter-col { display: flex; flex-direction: column; align-items: center; }
-
-    /* YouTube CTA card */
-    .yt-card {
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px; padding: 32px 28px;
-      display: flex; align-items: center; gap: 24px;
-      text-decoration: none; color: var(--white);
-      transition: background 0.2s, transform 0.2s;
-      margin-top: 20px;
-    }
-    .yt-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
-    .yt-icon { width: 56px; height: 56px; border-radius: 14px; background: #FF0000; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .yt-body { flex: 1; }
-    .yt-label { font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.15em; color:rgba(255,255,255,0.5); margin-bottom:6px; }
-    .yt-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-    .yt-sub { font-size: 14px; color: rgba(255,255,255,0.6); }
-
-    /* ══ GRANDSLAM ══ */
-    .grandslam-section { background: var(--white); padding: 100px 0; }
-    .grandslam-inner {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 80px; align-items: center;
-    }
-    .grandslam-label {
+      display: inline-block;
       font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
-      letter-spacing: 0.2em; color: var(--orange); margin-bottom: 16px;
+      letter-spacing: 0.15em; color: var(--orange);
+      border: 1px solid rgba(243,110,33,0.3); border-radius: 100px; padding: 6px 16px;
     }
-    .grandslam-title {
-      font-size: clamp(28px, 4vw, 42px); font-weight: 900;
-      line-height: 1.2; margin-bottom: 24px; color: var(--graphite);
+    .author-name {
+      font-family: 'Noto Serif JP', serif; font-size: 40px; font-weight: 900;
+      color: var(--ink); margin-bottom: 4px;
     }
-    .grandslam-desc p {
-      font-size: 16px; line-height: 1.95; color: var(--graphite); margin-bottom: 16px;
+    .author-name-en {
+      font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 500;
+      color: var(--ink-3); letter-spacing: 0.1em; margin-bottom: 28px;
     }
-    .grandslam-desc p:last-child { margin-bottom: 0; }
-    .grandslam-features {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0 32px;
+    .author-bio p { font-size: 15px; line-height: 2; color: var(--ink-2); margin-bottom: 16px; }
+    .grandslam-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid var(--border); color: var(--ink);
+      font-size: 13px; font-weight: 700; padding: 10px 22px;
+      border-radius: 100px; text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
     }
+    .grandslam-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ══════════════════════
+       SNS
+    ══════════════════════ */
+    .sns-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+      margin-bottom: 64px;
+    }
+    .sns-card {
+      display: flex; align-items: center; gap: 16px; padding: 20px 24px;
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
+      text-decoration: none; color: var(--white);
+      transition: background 0.2s, border-color 0.2s;
+      overflow: hidden;
+    }
+    .sns-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); }
+    .sns-card-wide { grid-column: 1 / -1; }
+    .sns-icon {
+      width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sns-info { flex: 1; }
+    .sns-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .sns-handle { font-size: 12px; color: rgba(255,255,255,0.4); font-family: 'Montserrat', sans-serif; }
+    .sns-desc { font-size: 13px; color: rgba(255,255,255,0.5); }
+    .sns-arrow { opacity: 0.3; flex-shrink: 0; transition: opacity 0.2s, transform 0.2s; }
+    .sns-card:hover .sns-arrow { opacity: 0.7; transform: translateX(3px); }
+
+    .x-embed-title { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.7); text-align: center; margin-bottom: 24px; }
+    .x-embed-title em { color: var(--orange); font-style: normal; }
+
+    /* ══════════════════════
+       GRANDSLAM SECTION
+    ══════════════════════ */
+    .grandslam-split { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .grandslam-features { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 28px 0 36px; }
     .gf-item {
       display: flex; align-items: center; gap: 10px;
-      font-size: 14px; font-weight: 500; color: var(--graphite);
+      font-size: 14px; color: var(--ink-2);
     }
-    .gf-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--orange); flex-shrink: 0;
+    .gf-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+    .grandslam-card {
+      background: var(--bg-dark); border-radius: 20px; padding: 52px 44px;
+      display: flex; flex-direction: column; gap: 32px;
     }
     .grandslam-visual {
-      background: var(--graphite); border-radius: 20px;
-      overflow: hidden; aspect-ratio: 4/3;
-      display: flex; align-items: center; justify-content: center;
-      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.16);
     }
-    .grandslam-visual-inner {
-      text-align: center; padding: 40px;
+    .grandslam-visual img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 11;
+      object-fit: cover;
     }
-    .grandslam-logo-text {
-      font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 900;
-      color: var(--white); letter-spacing: 0.05em; margin-bottom: 8px;
+    .grandslam-visual-caption {
+      padding: 14px 18px 16px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.04));
+      border-top: 1px solid rgba(0,0,0,0.06);
     }
-    .grandslam-logo-sub {
-      font-size: 13px; color: rgba(255,255,255,0.4); letter-spacing: 0.1em;
+    .grandslam-visual-caption strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
     }
-    .grandslam-meta {
-      display: flex; flex-direction: column; gap: 8px; margin-top: 32px;
+    .grandslam-visual-caption span {
+      display: block;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--ink-3);
     }
-    .gm-row {
-      display: flex; align-items: center; gap: 12px;
-      font-size: 13px; color: rgba(255,255,255,0.6);
+    .gs-logo {
+      font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 900;
+      color: var(--white); letter-spacing: 0.04em; line-height: 1;
     }
-    .gm-row svg { flex-shrink: 0; opacity: 0.6; }
-    @media(max-width:768px){
-      .grandslam-inner { grid-template-columns: 1fr; gap: 40px; }
-      .grandslam-visual { aspect-ratio: 16/9; }
-    }
+    .gs-logo span { display: block; color: var(--orange); font-size: 14px; font-weight: 500; letter-spacing: 0.15em; margin-top: 6px; }
+    .gs-divider { width: 40px; height: 1px; background: rgba(255,255,255,0.15); }
+    .gs-meta { display: flex; flex-direction: column; gap: 14px; }
+    .gs-row { display: flex; align-items: center; gap: 12px; font-size: 14px; color: rgba(255,255,255,0.55); }
+    .gs-row svg { flex-shrink: 0; opacity: 0.5; }
 
-    /* ══ CTA ══ */
-    .cta-section {
-      background: linear-gradient(135deg, #F36E21 0%, #FF9A3C 100%);
-      padding: 120px 0; text-align: center; position: relative; overflow: hidden;
+    /* ══════════════════════
+       PURCHASE / CTA
+    ══════════════════════ */
+    .purchase-section {
+      background: var(--bg-dark); padding: 140px 0; text-align: center;
+      position: relative; overflow: hidden;
     }
-    .cta-section::before {
-      content:'COWORKING'; position:absolute; font-family:'Montserrat',sans-serif;
-      font-size:clamp(80px,15vw,180px); font-weight:900; color:rgba(255,255,255,0.055);
-      top:50%; left:50%; transform:translate(-50%,-50%); white-space:nowrap; pointer-events:none;
-      max-width:100%; overflow:hidden;
+    .purchase-section::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(243,110,33,0.12) 0%, transparent 70%);
+      pointer-events: none;
     }
-    .cta-eyebrow { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; color:rgba(255,255,255,0.65); margin-bottom:20px; }
-    .cta-title { font-size:clamp(30px,5vw,50px); font-weight:900; color:var(--white); line-height:1.35; margin-bottom:20px; }
-    .cta-sub { font-size:17px; color:rgba(255,255,255,0.88); margin-bottom:48px; line-height:1.8; }
-    .cta-buttons { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+    .purchase-title {
+      font-family: 'Noto Serif JP', serif; font-size: clamp(32px, 6vw, 60px);
+      font-weight: 900; color: var(--white); line-height: 1.25; margin-bottom: 20px;
+    }
+    .purchase-sub { font-size: 17px; color: rgba(255,255,255,0.55); margin-bottom: 48px; line-height: 1.8; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .purchase-price {
+      font-family: 'Montserrat', sans-serif; font-size: 48px; font-weight: 700;
+      color: var(--white); margin-bottom: 40px; line-height: 1;
+    }
+    .purchase-price span { font-size: 16px; font-weight: 500; color: rgba(255,255,255,0.4); margin-left: 6px; }
+    .purchase-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
     .btn-white {
-      display:inline-flex; align-items:center; gap:10px;
-      background:var(--white); color:var(--orange);
-      font-size:16px; font-weight:700; padding:18px 44px;
-      border-radius:100px; text-decoration:none; letter-spacing:0.04em;
-      transition:transform 0.2s, box-shadow 0.2s;
-      box-shadow:0 8px 32px rgba(0,0,0,0.15);
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--white); color: var(--ink);
+      font-size: 15px; font-weight: 700; padding: 16px 36px;
+      border-radius: 100px; text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
     }
-    .btn-white:hover { transform:translateY(-2px); box-shadow:0 16px 40px rgba(0,0,0,0.2); }
-    .btn-white-ghost {
-      display:inline-flex; align-items:center; gap:10px;
-      border:2px solid rgba(255,255,255,0.65); color:var(--white);
-      font-size:15px; font-weight:700; padding:16px 36px;
-      border-radius:100px; text-decoration:none; background:transparent;
-      transition:background 0.2s;
+    .btn-white:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-outline-white {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.8);
+      font-size: 15px; font-weight: 500; padding: 15px 32px;
+      border-radius: 100px; text-decoration: none; background: transparent;
+      transition: border-color 0.2s, color 0.2s;
     }
-    .btn-white-ghost:hover { background:rgba(255,255,255,0.15); }
+    .btn-outline-white:hover { border-color: rgba(255,255,255,0.6); color: var(--white); }
+    .purchase-note { font-size: 13px; color: rgba(255,255,255,0.3); letter-spacing: 0.05em; }
 
-    /* ══ PUBLISHER ══ */
-    .publisher { background:var(--mist); padding:44px 0; }
-    .publisher-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px; }
-    .publisher-info { display:flex; align-items:center; gap:18px; }
-    .publisher-logo { width:44px; height:44px; background:var(--graphite); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Montserrat',sans-serif; font-size:10px; font-weight:700; color:var(--white); }
-    .publisher-name { font-size:14px; font-weight:700; }
-    .publisher-sub { font-size:12px; color:rgba(51,51,51,0.55); margin-top:2px; }
-    .book-meta { display:flex; gap:28px; flex-wrap:wrap; }
-    .book-meta-item { text-align:center; }
-    .book-meta-label { font-size:11px; font-weight:700; letter-spacing:0.1em; color:rgba(51,51,51,0.45); margin-bottom:4px; font-family:'Montserrat',sans-serif; }
-    .book-meta-value { font-size:15px; font-weight:700; }
-
-    footer { background:var(--graphite); padding:36px 0; text-align:center; }
-    footer p { font-size:12px; color:rgba(255,255,255,0.35); letter-spacing:0.08em; }
-
-    /* ══ RESPONSIVE ══ */
-    @media(max-width:900px){
-      .sns-grid { grid-template-columns: 1fr 1fr; }
-      .twitter-cols { grid-template-columns: 1fr; }
+    /* ══════════════════════
+       FOOTER
+    ══════════════════════ */
+    .site-footer { background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.06); padding: 40px 32px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-left p { font-size: 12px; color: rgba(255,255,255,0.25); letter-spacing: 0.06em; margin-top: 4px; }
+    .footer-logo { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 0.12em; }
+    .footer-logo span { color: var(--orange); }
+    .footer-link {
+      font-size: 13px; color: rgba(255,255,255,0.35); text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1px;
+      transition: color 0.2s;
     }
+    .footer-link:hover { color: var(--orange); }
+
+    /* ══════════════════════
+       PUBLISHER BAR
+    ══════════════════════ */
+    .pub-bar {
+      background: var(--bg); border-top: 1px solid var(--border); padding: 36px 0;
+    }
+    .pub-inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    }
+    .pub-info { display: flex; align-items: center; gap: 16px; }
+    .pub-link {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+      border-radius: 10px;
+      transition: opacity 0.2s;
+    }
+    .pub-link:hover { opacity: 0.72; }
+    .pub-logo {
+      width: 40px; height: 40px; background: var(--ink); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; color: var(--white);
+    }
+    .pub-name { font-size: 14px; font-weight: 700; }
+    .pub-sub { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+    .pub-meta { display: flex; gap: 32px; }
+    .pm-item { text-align: center; }
+    .pm-label { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--ink-3); margin-bottom: 4px; }
+    .pm-value { font-size: 14px; font-weight: 700; }
+
+    /* ══════════════════════
+       RESPONSIVE
+    ══════════════════════ */
     @media(max-width:768px){
-      .section{padding:72px 0;}
-      .container{padding:0 16px;}
-      .hero-inner{grid-template-columns:1fr;gap:36px;padding:80px 0 60px;text-align:center;}
-      .hero-book{order:-1;}
-      .book-cover-img{width:200px;transform:none;}
-      .hero-cta{justify-content:center;}
-      .hero-author{justify-content:center;}
-      .intro-grid{grid-template-columns:1fr;gap:48px;}
-      .quote-list{grid-template-columns:1fr;}
-      .keyword-grid{grid-template-columns:1fr;}
-      .chapter-row{grid-template-columns:80px 1fr;gap:20px;padding:24px 0;}
-      .author-inner{grid-template-columns:1fr;}
-      .author-photo-wrap{max-width:240px;margin:0 auto;}
-      .sns-grid{grid-template-columns:1fr;}
+      .nav { padding: 16px 20px; }
+      .hero { padding: 120px 20px 80px; }
+      .container, .container--narrow { padding: 0 20px; }
+      .section { padding: 80px 0; }
+      .intro-split { grid-template-columns: 1fr; gap: 56px; }
+      .pull-grid { grid-template-columns: 1fr; }
+      .keyword-grid { grid-template-columns: 1fr; }
+      .chapter-row { grid-template-columns: 72px 1fr; gap: 16px; padding: 24px 0; }
+      .author-split { grid-template-columns: 1fr; gap: 40px; }
+      .author-img-wrap { max-width: 220px; margin: 0 auto; }
+      .sns-grid { grid-template-columns: 1fr; }
+      .sns-card-wide { grid-column: 1; }
+      .grandslam-split { grid-template-columns: 1fr; gap: 48px; }
+      .grandslam-features { grid-template-columns: 1fr 1fr; }
+      .grandslam-visual img { aspect-ratio: 16 / 10; }
+      .purchase-section { padding: 100px 0; }
+      .pub-inner { flex-direction: column; align-items: flex-start; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
 
-<!-- ══ HERO ══ -->
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-logo">COWORKING<span>-HOLIC</span></a>
+  <a href="#purchase" class="nav-cta">購入する — ¥1,980</a>
+</nav>
+
+<!-- HERO -->
 <section class="hero">
-  <div class="container">
-    <div class="hero-inner">
-      <div class="hero-text">
-        <span class="hero-eyebrow">Galaxy Books — 新刊発売</span>
-        <h1 class="hero-title">コワーキング<br>ホリック</h1>
-        <p class="hero-title-en">Coworking-Holic</p>
-        <p class="hero-copy">
-          「コワーキングスペースは<strong>社会に必要なのか</strong>」——<br>
-          コロナ禍の空っぽの空間で、一人問い続けた答え。
-        </p>
-        <p class="hero-copy-sub">
-          大阪・福島のコワーキングスペース「GRANDSLAM」を運営する著者が、
-          5年間の苦難と喜びを経て辿り着いた、場所を通じた「小さな社会インフラ」の物語。
-        </p>
-        <div class="hero-author">
-          <span class="hero-author-label">著者</span>
-          <div class="hero-author-divider"></div>
-          <span class="hero-author-name">吉永 亮</span>
-        </div>
-        <div class="hero-cta">
-          <a href="#purchase" class="btn-primary">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-            今すぐ購入する
-          </a>
-          <a href="#contents" class="btn-ghost">目次を見る</a>
-        </div>
-      </div>
+  <a href="https://galaxyinc.co.jp/" target="_blank" rel="noopener" class="hero-label reveal" aria-label="Galaxy Books 公式サイトへ">Galaxy Books — 新刊発売</a>
+  <h1 class="hero-title reveal">コワーキング<br>ホリック</h1>
+  <p class="hero-title-en reveal">Coworking-Holic</p>
+
+  <div class="hero-book-wrap reveal">
+    <button type="button" class="hero-book-toggle" aria-label="表紙と裏表紙を切り替える" aria-pressed="false">
       <div class="hero-book">
-        <img src="book-cover.png" alt="コワーキングホリック 書影" class="book-cover-img" />
+        <div class="hero-book-face hero-book-front">
+          <img src="cover1.jpeg" alt="コワーキングホリック 表紙" />
+        </div>
+        <div class="hero-book-face hero-book-back">
+          <img src="cover2.jpeg" alt="コワーキングホリック 裏表紙" />
+        </div>
       </div>
-    </div>
+    </button>
+    <div class="hero-book-hint">クリックで裏面を表示</div>
   </div>
-  <div class="scroll-indicator"><span>▼</span><small>SCROLL</small></div>
+
+  <p class="hero-copy reveal">
+    「コワーキングスペースは<strong>社会に必要なのか</strong>」——<br>
+    コロナ禍の空っぽの空間で、一人問い続けた答え。
+  </p>
+  <div class="hero-author reveal">
+    <span>著者</span>
+    <div class="hero-author-divider"></div>
+    <span class="hero-author-name">吉永 亮</span>
+  </div>
+  <p class="hero-price reveal">¥1,980<span>税込</span></p>
+  <div class="hero-cta reveal">
+    <a href="#purchase" class="btn-primary">今すぐ購入する</a>
+    <a href="#contents" class="btn-secondary">目次を見る</a>
+  </div>
 </section>
 
-<!-- ══ BAND ══ -->
-<div class="band">
-  <div class="band-track">
-    <span class="band-item accent">COWORKING-HOLIC</span>
-    <span class="band-item">吉永 亮 著</span>
-    <span class="band-item accent">GRANDSLAM</span>
-    <span class="band-item">コワーキングは、社会インフラである</span>
-    <span class="band-item accent">Galaxy Books</span>
-    <span class="band-item">エアポート構想</span>
-    <span class="band-item accent">ドラマチックコワーキング</span>
-    <span class="band-item">大阪・福島発</span>
-    <span class="band-item accent">COWORKING-HOLIC</span>
-    <span class="band-item">吉永 亮 著</span>
-    <span class="band-item accent">GRANDSLAM</span>
-    <span class="band-item">コワーキングは、社会インフラである</span>
-    <span class="band-item accent">Galaxy Books</span>
-    <span class="band-item">エアポート構想</span>
-    <span class="band-item accent">ドラマチックコワーキング</span>
-    <span class="band-item">大阪・福島発</span>
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="marquee-item hi">COWORKING-HOLIC</span>
+    <span class="marquee-item">吉永 亮 著</span>
+    <span class="marquee-item hi">GRANDSLAM</span>
+    <span class="marquee-item">コワーキングは、社会インフラである</span>
+    <span class="marquee-item hi">Galaxy Books</span>
+    <span class="marquee-item">エアポート構想</span>
+    <span class="marquee-item hi">ドラマチックコワーキング</span>
+    <span class="marquee-item">大阪・福島発</span>
+    <span class="marquee-item hi">COWORKING-HOLIC</span>
+    <span class="marquee-item">吉永 亮 著</span>
+    <span class="marquee-item hi">GRANDSLAM</span>
+    <span class="marquee-item">コワーキングは、社会インフラである</span>
+    <span class="marquee-item hi">Galaxy Books</span>
+    <span class="marquee-item">エアポート構想</span>
+    <span class="marquee-item hi">ドラマチックコワーキング</span>
+    <span class="marquee-item">大阪・福島発</span>
   </div>
 </div>
 
-<!-- ══ INTRO ══ -->
+<!-- INTRO -->
 <section class="section">
   <div class="container">
-    <div class="intro-grid">
-      <div class="intro-text reveal">
-        <span class="section-title">この本について</span>
-        <p>
-          2020年、コロナ禍。誰もいない広いスペースで、著者は自問しました。
-          <strong>「コワーキングスペースは、社会に本当に必要なのか」</strong>と。
-        </p>
-        <p>
-          大阪・福島で「GRANDSLAM」を運営して5年——
-          JR西日本不動産との縁による移転という大きな転機を経て、
-          著者が辿り着いた答えは「<strong>ここは家でも職場でもないサードプレイス</strong>」であり、
-          孤独な個人が「つながる個人」へと変わるための小さな社会インフラであるという確信でした。
-        </p>
-        <p>
-          本書はその実体験に基づいた、場所と人とコミュニティの物語です。
-        </p>
-      </div>
+    <div class="intro-split">
       <div class="reveal">
-        <ul class="theme-list">
-          <li class="theme-item">
-            <div class="theme-icon">🏗️</div>
-            <div class="theme-body">
-              <div class="theme-title">産業を創るという覚悟</div>
-              <div class="theme-desc">コワーキングを、自動車や医療のような社会に不可欠な「産業」へと昇華させる。その覚悟と実践を語る。</div>
-            </div>
-          </li>
-          <li class="theme-item">
-            <div class="theme-icon">🤝</div>
-            <div class="theme-body">
-              <div class="theme-title">「顧客」から「仲間」へ</div>
-              <div class="theme-desc">サービスの提供者と受け手の境界を越え、共にイベントを企画し夢を語り合う仲間のコミュニティ作り。</div>
-            </div>
-          </li>
-          <li class="theme-item">
-            <div class="theme-icon">🔨</div>
-            <div class="theme-body">
-              <div class="theme-title">不完全さの価値（プロセスエコノミー）</div>
-              <div class="theme-desc">DIYで内装を作り、利用者を巻き込んで場をアップデートする。完成より「過程」そのものを価値とする哲学。</div>
-            </div>
-          </li>
-          <li class="theme-item">
-            <div class="theme-icon">🌐</div>
-            <div class="theme-body">
-              <div class="theme-title">リアルな場所の意義</div>
-              <div class="theme-desc">AIやDXが進む時代だからこそ、偶然の出会いや温度感のある「リアルな場所」のつながりが人生を変える。</div>
-            </div>
-          </li>
-        </ul>
+        <p class="label">ABOUT</p>
+        <h2 class="display">この本について</h2>
+        <div class="intro-body">
+          <p>2020年、コロナ禍。誰もいない広いスペースで、著者は自問しました。<strong>「コワーキングスペースは、社会に本当に必要なのか」</strong>と。</p>
+          <p>大阪・福島で「GRANDSLAM」を運営して5年——JR西日本不動産との縁による移転という大きな転機を経て、著者が辿り着いた答えは「<strong>ここは家でも職場でもないサードプレイス</strong>」であり、孤独な個人が「つながる個人」へと変わるための小さな社会インフラであるという確信でした。</p>
+          <p>本書はその実体験に基づいた、場所と人とコミュニティの物語です。</p>
+        </div>
+      </div>
+      <div class="theme-stack reveal">
+        <div class="theme-row">
+          <span class="theme-num">01</span>
+          <div>
+            <div class="theme-title">産業を創るという覚悟</div>
+            <div class="theme-desc">コワーキングを、自動車や医療のような社会に不可欠な「産業」へと昇華させる。その覚悟と実践を語る。</div>
+          </div>
+        </div>
+        <div class="theme-row">
+          <span class="theme-num">02</span>
+          <div>
+            <div class="theme-title">「顧客」から「仲間」へ</div>
+            <div class="theme-desc">サービスの提供者と受け手の境界を越え、共にイベントを企画し夢を語り合う仲間のコミュニティ作り。</div>
+          </div>
+        </div>
+        <div class="theme-row">
+          <span class="theme-num">03</span>
+          <div>
+            <div class="theme-title">不完全さの価値（プロセスエコノミー）</div>
+            <div class="theme-desc">DIYで内装を作り、利用者を巻き込んで場をアップデートする。完成より「過程」そのものを価値とする哲学。</div>
+          </div>
+        </div>
+        <div class="theme-row">
+          <span class="theme-num">04</span>
+          <div>
+            <div class="theme-title">リアルな場所の意義</div>
+            <div class="theme-desc">AIやDXが進む時代だからこそ、偶然の出会いや温度感のある「リアルな場所」のつながりが人生を変える。</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ PROBLEM ══ -->
-<section class="quote-section">
+<!-- PULL QUOTES -->
+<section class="pull-section">
   <div class="container">
-    <span class="section-title reveal">こんな悩みはありませんか？</span>
-    <div class="quote-list">
-      <div class="quote-card reveal">
-        <p>在宅ワークが続いて、孤独を感じるようになった。誰かと一緒に働きたいけど、どこへ行けばいいかわからない。</p>
+    <div class="pull-grid reveal">
+      <div class="pull-card">
+        <p class="pull-text">在宅ワークが続いて、孤独を感じるようになった。誰かと一緒に働きたいけど、どこへ行けばいいかわからない。</p>
       </div>
-      <div class="quote-card reveal">
-        <p>新しいビジネスのアイデアはあるけれど、相談できる仲間がいない。自分一人では限界を感じている。</p>
+      <div class="pull-card">
+        <p class="pull-text">新しいビジネスのアイデアはあるけれど、相談できる仲間がいない。自分一人では限界を感じている。</p>
       </div>
-      <div class="quote-card reveal">
-        <p>コワーキングスペースに興味はあるけど、コストに見合うのか、どんな人が来るのか、よくわからない。</p>
+      <div class="pull-card">
+        <p class="pull-text">コワーキングスペースに興味はあるけど、コストに見合うのか、どんな人が来るのか、よくわからない。</p>
       </div>
     </div>
-    <div class="quote-answer reveal">
-      <p>その答えは、<strong>「場所」の選び方</strong>にあります。<br>
-      コワーキングは単なるスペースではなく、<strong>あなたの可能性を広げるコミュニティ</strong>です。</p>
+    <div class="pull-answer reveal">
+      <p>その答えは、<strong>「場所」の選び方</strong>にある。<br>コワーキングは単なるスペースではなく、<strong>あなたの可能性を広げるコミュニティ</strong>だ。</p>
     </div>
   </div>
 </section>
 
-<!-- ══ KEYWORDS ══ -->
-<section class="section section-alt">
+<!-- KEYWORDS -->
+<section class="section section-bg">
   <div class="container">
-    <h2 class="section-title section-title-center reveal">本書のキーワード</h2>
+    <div style="margin-bottom:64px;" class="reveal">
+      <p class="label-muted">KEYWORDS</p>
+      <h2 class="display">本書を読み解く<br>3つの言葉</h2>
+    </div>
     <div class="keyword-grid">
       <div class="keyword-card reveal">
-        <div class="keyword-label">KEYWORD 01</div>
-        <div class="keyword-name">エアポート構想</div>
-        <div class="keyword-desc">ここから飛び立ち、また戻ってくる中継点のような場所。コワーキングスペースを「人生の空港」として捉える著者独自のビジョン。</div>
+        <p class="keyword-num">KEYWORD 01</p>
+        <h3 class="keyword-name">エアポート構想</h3>
+        <p class="keyword-desc">ここから飛び立ち、また戻ってくる中継点のような場所。コワーキングスペースを「人生の空港」として捉える著者独自のビジョン。</p>
       </div>
       <div class="keyword-card reveal">
-        <div class="keyword-label">KEYWORD 02</div>
-        <div class="keyword-name">ドラマチックコワーキング</div>
-        <div class="keyword-desc">日常の中で偶然の出会いや挑戦のきっかけが生まれる、ドラマのような場。GRANDSLAMが目指すコワーキングの姿。</div>
+        <p class="keyword-num">KEYWORD 02</p>
+        <h3 class="keyword-name">ドラマチックコワーキング</h3>
+        <p class="keyword-desc">日常の中で偶然の出会いや挑戦のきっかけが生まれる、ドラマのような場。GRANDSLAMが目指すコワーキングの姿。</p>
       </div>
       <div class="keyword-card reveal">
-        <div class="keyword-label">KEYWORD 03</div>
-        <div class="keyword-name">忘れもの</div>
-        <div class="keyword-desc">利用者が壁にサインやメッセージを残すことで、場所に物語を宿らせる仕掛け。その空間に生きた証を刻む、GRANDSLAMの文化。</div>
+        <p class="keyword-num">KEYWORD 03</p>
+        <h3 class="keyword-name">忘れもの</h3>
+        <p class="keyword-desc">利用者が壁にサインやメッセージを残すことで、場所に物語を宿らせる仕掛け。その空間に生きた証を刻む、GRANDSLAMの文化。</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ CONTENTS ══ -->
+<!-- CONTENTS -->
 <section class="section" id="contents">
   <div class="container">
-    <h2 class="section-title section-title-center reveal">目次</h2>
-    <div class="reveal">
+    <div style="margin-bottom:64px;" class="reveal">
+      <p class="label-muted">CONTENTS</p>
+      <h2 class="display">目次</h2>
+    </div>
+    <div class="chapter-list reveal">
       <div class="chapter-row">
         <div class="chapter-num">第1章</div>
         <div>
@@ -598,7 +733,7 @@
         <div class="chapter-num">第4章</div>
         <div>
           <div class="chapter-title">実際どんなことが生まれたか ‐具体例‐</div>
-          <div class="chapter-desc">つながりが信頼に変わり、仕事が生まれていく具体的なプロセス。エアポート構想・ドラマチックコワーキング・忘れものという3つのキーワードで解き明かす。</div>
+          <div class="chapter-desc">つながりが信頼に変わり、仕事が生まれていく具体的なプロセス。3つのキーワードで解き明かす。</div>
           <div class="chapter-tags"><span class="chapter-tag">エアポート構想</span><span class="chapter-tag">ドラマチックコワーキング</span><span class="chapter-tag">忘れもの</span></div>
         </div>
       </div>
@@ -629,186 +764,156 @@
   </div>
 </section>
 
-<!-- ══ AUTHOR ══ -->
-<section class="section section-alt">
+<!-- AUTHOR -->
+<section class="section section-bg">
   <div class="container">
-    <h2 class="section-title section-title-center reveal">著者プロフィール</h2>
-    <div class="author-inner reveal">
-      <div class="author-photo-wrap">
-        <img src="author.jpg" alt="吉永亮" class="author-photo" />
-        <span class="author-badge">GRANDSLAM Founder</span>
+    <div class="author-split reveal">
+      <div class="author-img-wrap">
+        <img src="author.jpg" alt="吉永亮" class="author-img" />
+        <div class="author-badge-wrap">
+          <span class="author-badge">GRANDSLAM Founder</span>
+        </div>
       </div>
-      <div class="author-meta">
-        <p class="author-role">AUTHOR</p>
-        <h2 class="author-name-ja">吉永 亮</h2>
+      <div>
+        <p class="label">AUTHOR</p>
+        <h2 class="author-name">吉永 亮</h2>
         <p class="author-name-en">Ryo Yoshinaga</p>
-        <p style="font-size:16px;line-height:1.95;margin-bottom:16px;">
-          大阪・福島のコワーキングスペース「GRANDSLAM」ファウンダー。
-          コロナ禍という最悪のタイミングで開業し、誰もいないスペースで
-          「この場所は社会に必要なのか」と問い続けた。
-        </p>
-        <p style="font-size:16px;line-height:1.95;margin-bottom:24px;">
-          JR西日本不動産との縁による移転を機に場を再生。
-          「顧客ではなく仲間を作る」という哲学のもと、
-          DIYの内装づくりや利用者参加型のイベント運営など、
-          プロセスそのものを価値とする「プロセスエコノミー」を実践。
-          「コワーキングを産業にする」をビジョンに、リアルな場所でしか生まれないつながりの可能性を発信し続けている。
-        </p>
-        <a href="https://grandslam.osaka/" target="_blank" rel="noopener" class="grandslam-link">
-          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-          GRANDSLAM（grandslam.osaka）
+        <div class="author-bio">
+          <p>大阪・福島のコワーキングスペース「GRANDSLAM」ファウンダー。コロナ禍という最悪のタイミングで開業し、誰もいないスペースで「この場所は社会に必要なのか」と問い続けた。</p>
+          <p>JR西日本不動産との縁による移転を機に場を再生。「顧客ではなく仲間を作る」という哲学のもと、DIYの内装づくりや利用者参加型のイベント運営など、プロセスそのものを価値とする「プロセスエコノミー」を実践。「コワーキングを産業にする」をビジョンに、リアルな場所でしか生まれないつながりの可能性を発信し続けている。</p>
+        </div>
+        <a href="https://grandslam.osaka/" target="_blank" rel="noopener" class="grandslam-btn" style="margin-top:24px;">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          grandslam.osaka
         </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ SNS ══ -->
-<section class="sns-section">
+<!-- SNS -->
+<section class="section section-dark">
   <div class="container">
-    <h2 class="section-title section-title-center reveal" style="color:var(--white);">著者をフォローする</h2>
-
+    <div style="margin-bottom:56px;" class="reveal">
+      <p class="label">FOLLOW</p>
+      <h2 class="display display-white">著者をフォローする</h2>
+    </div>
     <div class="sns-grid">
-      <!-- X / Twitter -->
       <a href="https://x.com/ryo_tpi" target="_blank" rel="noopener" class="sns-card reveal">
-        <div class="sns-card-top">
-          <div class="sns-icon" style="background:#000;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.264 5.634L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </div>
-          <div>
-            <div class="sns-name">X（Twitter）</div>
-            <div class="sns-handle">@ryo_tpi</div>
-          </div>
-          <svg class="sns-arrow" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <div class="sns-icon" style="background:#000;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.264 5.634L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </div>
-        <div class="sns-desc">コワーキング・起業・日常のリアルな発信。最新情報はこちらから。</div>
+        <div class="sns-info">
+          <div class="sns-name">X（Twitter）</div>
+          <div class="sns-handle">@ryo_tpi</div>
+        </div>
+        <div class="sns-desc">コワーキング・起業・日常の発信</div>
+        <svg class="sns-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-
-      <!-- Instagram -->
       <a href="https://instagram.com/ryo_tpi/" target="_blank" rel="noopener" class="sns-card reveal">
-        <div class="sns-card-top">
-          <div class="sns-icon" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          </div>
-          <div>
-            <div class="sns-name">Instagram</div>
-            <div class="sns-handle">@ryo_tpi</div>
-          </div>
-          <svg class="sns-arrow" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <div class="sns-icon" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
         </div>
-        <div class="sns-desc">GRANDSLAMの日常や、コワーキングの風景を写真で発信。</div>
+        <div class="sns-info">
+          <div class="sns-name">Instagram</div>
+          <div class="sns-handle">@ryo_tpi</div>
+        </div>
+        <div class="sns-desc">GRANDSLAMの日常を写真で</div>
+        <svg class="sns-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-
-      <!-- Facebook -->
       <a href="https://www.facebook.com/ryo.yoshinaga.7007" target="_blank" rel="noopener" class="sns-card reveal">
-        <div class="sns-card-top">
-          <div class="sns-icon" style="background:#1877F2;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          </div>
-          <div>
-            <div class="sns-name">Facebook</div>
-            <div class="sns-handle">ryo.yoshinaga.7007</div>
-          </div>
-          <svg class="sns-arrow" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <div class="sns-icon" style="background:#1877F2;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
         </div>
-        <div class="sns-desc">イベント告知や思考のアウトプットを発信。友達申請もお気軽に。</div>
+        <div class="sns-info">
+          <div class="sns-name">Facebook</div>
+          <div class="sns-handle">ryo.yoshinaga.7007</div>
+        </div>
+        <div class="sns-desc">イベント告知・思考のアウトプット</div>
+        <svg class="sns-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-
-      <!-- LinkedIn -->
       <a href="https://linkedin.com/in/ryo-yoshinaga/" target="_blank" rel="noopener" class="sns-card reveal">
-        <div class="sns-card-top">
-          <div class="sns-icon" style="background:#0A66C2;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </div>
-          <div>
-            <div class="sns-name">LinkedIn</div>
-            <div class="sns-handle">ryo-yoshinaga</div>
-          </div>
-          <svg class="sns-arrow" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <div class="sns-icon" style="background:#0A66C2;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
         </div>
-        <div class="sns-desc">ビジネス・キャリアに関する発信。コネクションも歓迎。</div>
+        <div class="sns-info">
+          <div class="sns-name">LinkedIn</div>
+          <div class="sns-handle">ryo-yoshinaga</div>
+        </div>
+        <div class="sns-desc">ビジネス・キャリアの発信</div>
+        <svg class="sns-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-
-      <!-- YouTube -->
-      <a href="https://www.youtube.com/@GRANDSLAM2019" target="_blank" rel="noopener" class="sns-card reveal" style="grid-column: span 2;">
-        <div class="sns-card-top">
-          <div class="sns-icon" style="background:#FF0000; width:56px; height:56px; border-radius:14px;">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-          </div>
-          <div>
-            <div class="sns-name" style="font-size:18px;">YouTube — GRANDSLAM Channel</div>
-            <div class="sns-handle">@GRANDSLAM2019</div>
-          </div>
-          <svg class="sns-arrow" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <a href="https://www.youtube.com/@GRANDSLAM2019" target="_blank" rel="noopener" class="sns-card sns-card-wide reveal">
+        <div class="sns-icon" style="background:#FF0000; width:44px; height:44px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
         </div>
-        <div class="sns-desc">コワーキングスペースの日常、イベントのレポート、著者の思考を動画でお届け。チャンネル登録はこちらから。</div>
+        <div class="sns-info">
+          <div class="sns-name">YouTube — GRANDSLAM Channel</div>
+          <div class="sns-handle">@GRANDSLAM2019</div>
+        </div>
+        <div class="sns-desc">コワーキングの日常・イベントレポート・著者の思考を動画でお届け</div>
+        <svg class="sns-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
-
-    <!-- X Timeline Embed -->
-    <div class="twitter-embed-wrap reveal">
-      <p class="twitter-embed-title">最新の投稿 — <span>X (@ryo_tpi)</span></p>
+    <div class="reveal">
+      <p class="x-embed-title">最新投稿 — <em>X @ryo_tpi</em></p>
       <div style="display:flex;justify-content:center;">
         <a class="twitter-timeline"
            data-theme="dark"
            data-chrome="noheader nofooter noborders transparent"
            data-tweet-limit="4"
            data-width="860"
-           href="https://twitter.com/ryo_tpi?ref_src=twsrc%5Etfw">
-          Tweets by ryo_tpi
-        </a>
+           href="https://twitter.com/ryo_tpi?ref_src=twsrc%5Etfw">Tweets by ryo_tpi</a>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ══ GRANDSLAM ══ -->
-<section class="grandslam-section">
+<!-- GRANDSLAM -->
+<section class="section">
   <div class="container">
-    <div class="grandslam-inner">
+    <div class="grandslam-split">
       <div class="reveal">
-        <p class="grandslam-label">ABOUT THE PLACE</p>
-        <h2 class="grandslam-title">本の舞台——<br>GRANDSLAM</h2>
-        <div class="grandslam-desc">
-          <p>
-            大阪・福島駅すぐ。著者・吉永亮が自ら立ち上げ、5年間運営し続けているコワーキングスペースが「GRANDSLAM」です。
-          </p>
-          <p>
-            「ドラマチックコワーキング」をコンセプトに、ここでは毎日のように新しい出会いとプロジェクトが生まれています。
-            作業するだけでなく、仲間を作り、夢を語り、一緒に動き出すための場所です。
-          </p>
-        </div>
+        <p class="label">ABOUT THE PLACE</p>
+        <h2 class="display">本の舞台——<br>GRANDSLAM</h2>
+        <p class="subtext" style="margin-bottom:0;">大阪・福島駅すぐ。著者・吉永亮が自ら立ち上げ、5年間運営し続けているコワーキングスペース。「ドラマチックコワーキング」をコンセプトに、毎日のように新しい出会いとプロジェクトが生まれています。</p>
         <div class="grandslam-features">
           <div class="gf-item"><div class="gf-dot"></div>大阪・福島駅徒歩すぐ</div>
           <div class="gf-item"><div class="gf-dot"></div>ドロップイン利用OK</div>
           <div class="gf-item"><div class="gf-dot"></div>イベントスペース併設</div>
-          <div class="gf-item"><div class="gf-dot"></div>コミュニティ重視の運営</div>
           <div class="gf-item"><div class="gf-dot"></div>月額会員プランあり</div>
+          <div class="gf-item"><div class="gf-dot"></div>コミュニティ重視の運営</div>
           <div class="gf-item"><div class="gf-dot"></div>書籍の手渡し購入も可</div>
         </div>
         <a href="https://grandslam.osaka/" target="_blank" rel="noopener" class="btn-primary" style="width:fit-content;">
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
           GRANDSLAMのサイトへ
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
-      <div class="grandslam-visual reveal">
-        <div class="grandslam-visual-inner">
-          <div class="grandslam-logo-text">GRAND<br>SLAM</div>
-          <div class="grandslam-logo-sub">grandslam.osaka</div>
-          <div class="grandslam-meta">
-            <div class="gm-row">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              大阪市福島区 / JR福島駅そば
-            </div>
-            <div class="gm-row">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              2019年創業
-            </div>
-            <div class="gm-row">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-              コワーキング・イベントスペース
-            </div>
+      <div class="grandslam-card reveal">
+        <div class="grandslam-visual">
+          <img src="grandslam.jpeg" alt="GRANDSLAMの紹介写真" />
+          <div class="grandslam-visual-caption">
+            <strong>GRANDSLAM</strong>
+            <span>大阪・福島で、偶然の出会いと仕事が生まれる場所。</span>
+          </div>
+        </div>
+        <div>
+          <div class="gs-logo">GRAND<br>SLAM<span>grandslam.osaka</span></div>
+        </div>
+        <div class="gs-divider"></div>
+        <div class="gs-meta">
+          <div class="gs-row">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            大阪府大阪市福島区 / JR福島駅そば
+          </div>
+          <div class="gs-row">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            2019年創業
+          </div>
+          <div class="gs-row">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            コワーキング・イベントスペース
           </div>
         </div>
       </div>
@@ -816,93 +921,83 @@
   </div>
 </section>
 
-<!-- ══ CTA ══ -->
-<section class="cta-section" id="purchase">
-  <div class="container">
-    <p class="cta-eyebrow reveal">COWORKING-HOLIC / Galaxy Books</p>
-    <h2 class="cta-title reveal">さあ、はしごを登ろう。<br>あなたの場所が、待っている。</h2>
-    <p class="cta-sub reveal">
-      孤独から「つながる個人」へ——<br>
-      コワーキングという生き方が、あなたの日常を変える。
-    </p>
-    <p class="reveal" style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.12em;color:rgba(255,255,255,0.7);margin-bottom:8px;">PRICE</p>
-    <p class="reveal" style="font-family:'Montserrat',sans-serif;font-size:44px;font-weight:900;color:var(--white);line-height:1;margin-bottom:40px;">¥1,980<span style="font-size:16px;font-weight:500;margin-left:6px;opacity:0.7;">税込</span></p>
-    <div class="cta-buttons reveal">
+<!-- PURCHASE -->
+<section class="purchase-section" id="purchase">
+  <div class="container--narrow" style="position:relative;z-index:1;">
+    <p class="label reveal" style="justify-content:center;display:flex;margin-bottom:20px;">PURCHASE</p>
+    <h2 class="purchase-title reveal">さあ、はしごを登ろう。<br>あなたの場所が、待っている。</h2>
+    <p class="purchase-sub reveal">孤独から「つながる個人」へ——<br>コワーキングという生き方が、あなたの日常を変える。</p>
+    <p class="purchase-price reveal">¥1,980<span>税込</span></p>
+    <div class="purchase-btns reveal">
       <a href="#" class="btn-white">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         Amazonで購入
       </a>
-      <a href="#" class="btn-white-ghost">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <a href="#" class="btn-outline-white">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         オンライン決済（Stripe）
       </a>
-      <a href="https://grandslam.osaka/" target="_blank" rel="noopener" class="btn-white-ghost">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <a href="https://grandslam.osaka/" target="_blank" rel="noopener" class="btn-outline-white">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         GRANDSLAMで手渡し
       </a>
     </div>
-    <p class="reveal" style="color:rgba(255,255,255,0.6);font-size:13px;margin-top:20px;letter-spacing:0.05em;">
-      ※ 手渡しは大阪・福島「GRANDSLAM」にてお受け取りいただけます
-    </p>
+    <p class="purchase-note reveal">※ できたら手渡しで想いを伝えたい。大阪・福島「GRANDSLAM」でのお渡し時、著者不在時を除いて著者本人から手渡しします。</p>
   </div>
 </section>
 
-<!-- ══ PUBLISHER ══ -->
-<div class="publisher">
-  <div class="container">
-    <div class="publisher-inner">
-      <div class="publisher-info">
-        <div class="publisher-logo">GB</div>
+<!-- PUBLISHER BAR -->
+<div class="pub-bar">
+  <div class="pub-inner">
+    <a href="https://galaxyinc.co.jp/" target="_blank" rel="noopener" class="pub-link" aria-label="Galaxy Books 公式サイトへ">
+      <div class="pub-info">
+        <div class="pub-logo">GB</div>
         <div>
-          <div class="publisher-name">Galaxy Books</div>
-          <div class="publisher-sub">クリエイターのための出版レーベル</div>
+          <div class="pub-name">Galaxy Books</div>
+          <div class="pub-sub">クリエイターのための出版レーベル</div>
         </div>
       </div>
-      <div class="book-meta">
-        <div class="book-meta-item">
-          <div class="book-meta-label">著者</div>
-          <div class="book-meta-value">吉永 亮</div>
-        </div>
-        <div class="book-meta-item">
-          <div class="book-meta-label">出版</div>
-          <div class="book-meta-value">Galaxy Books</div>
-        </div>
-        <div class="book-meta-item">
-          <div class="book-meta-label">発行年</div>
-          <div class="book-meta-value">2026年</div>
-        </div>
-        <div class="book-meta-item">
-          <div class="book-meta-label">定価</div>
-          <div class="book-meta-value">¥1,980（税込）</div>
-        </div>
-      </div>
+    </a>
+    <div class="pub-meta">
+      <div class="pm-item"><div class="pm-label">著者</div><div class="pm-value">吉永 亮</div></div>
+      <div class="pm-item"><div class="pm-label">定価</div><div class="pm-value">¥1,980（税込）</div></div>
+      <div class="pm-item"><div class="pm-label">発行年</div><div class="pm-value">2026年</div></div>
     </div>
   </div>
 </div>
 
-<footer>
-  <div class="container">
-    <p style="margin-bottom:12px;">
-      <a href="tokushoho.html" style="color:rgba(255,255,255,0.55);font-size:13px;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:1px;transition:color 0.2s;"
-         onmouseover="this.style.color='#F36E21'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">
-        特定商取引法に基づく表記
-      </a>
-    </p>
-    <p>© 2026 Galaxy Books / Ryo Yoshinaga. All rights reserved.</p>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-logo">COWORKING<span>-HOLIC</span></div>
+      <p>© 2026 Galaxy Books / Ryo Yoshinaga. All rights reserved.</p>
+    </div>
+    <a href="tokushoho.html" class="footer-link">特定商取引法に基づく表記</a>
   </div>
 </footer>
 
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <script>
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
   }, { threshold: 0.08 });
-  reveals.forEach((el, i) => {
-    const parent = el.closest('.sns-grid, .keyword-grid, .quote-list');
-    if (parent) el.style.transitionDelay = `${Array.from(parent.children).indexOf(el) * 0.1}s`;
-    observer.observe(el);
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    const group = el.closest('.theme-stack, .keyword-grid, .pull-grid, .chapter-list, .sns-grid');
+    if (group) {
+      const idx = Array.from(group.querySelectorAll('.reveal')).indexOf(el);
+      if (idx > 0) el.style.transitionDelay = `${idx * 0.07}s`;
+    }
+    io.observe(el);
   });
+
+  const heroBookToggle = document.querySelector('.hero-book-toggle');
+  if (heroBookToggle) {
+    heroBookToggle.addEventListener('click', () => {
+      const isFlipped = heroBookToggle.classList.toggle('is-flipped');
+      heroBookToggle.setAttribute('aria-pressed', String(isFlipped));
+    });
+  }
 </script>
 </body>
 </html>
