@@ -17,9 +17,7 @@
       background: var(--graphite); padding: 20px 0;
       border-bottom: 3px solid var(--orange);
     }
-    .header-inner {
-      display: flex; align-items: center; justify-content: space-between;
-    }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; }
     .header-logo {
       font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700;
       color: rgba(255,255,255,0.5); letter-spacing: 0.15em; text-decoration: none;
@@ -35,7 +33,7 @@
     main { padding: 64px 0 100px; }
 
     h1 {
-      font-size: 28px; font-weight: 700; margin-bottom: 8px;
+      font-size: 26px; font-weight: 700; margin-bottom: 8px;
       padding-bottom: 16px; border-bottom: 3px solid var(--orange);
     }
     .lead {
@@ -43,27 +41,21 @@
       line-height: 1.7;
     }
 
-    table {
-      width: 100%; border-collapse: collapse; margin-bottom: 40px;
-    }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
     th, td {
       padding: 18px 20px; border-bottom: 1px solid rgba(0,0,0,0.07);
       font-size: 15px; line-height: 1.7; vertical-align: top; text-align: left;
     }
-    th {
-      width: 200px; background: var(--mist); font-weight: 700;
-      white-space: nowrap; color: var(--graphite);
-    }
+    th { width: 200px; background: var(--mist); font-weight: 700; white-space: nowrap; }
     td { background: #fff; }
     tr:last-child th, tr:last-child td { border-bottom: none; }
 
     .note {
-      background: var(--mist); border-radius: 10px; padding: 20px 24px;
+      background: #FFF8F3; border: 1px solid rgba(243,110,33,0.2);
+      border-radius: 10px; padding: 18px 22px;
       font-size: 14px; line-height: 1.8; color: rgba(51,51,51,0.75);
       margin-bottom: 24px;
     }
-    .note strong { color: var(--orange); }
-
     .placeholder {
       color: #c0392b; background: #fff5f5;
       border: 1px dashed #e74c3c; border-radius: 4px;
@@ -74,7 +66,7 @@
     footer p { font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 0.08em; }
 
     @media(max-width:600px){
-      th { width: 130px; }
+      th { width: 120px; }
       th, td { padding: 14px 12px; font-size: 14px; }
     }
   </style>
@@ -96,12 +88,9 @@
 <main>
   <div class="container">
     <h1>特定商取引法に基づく表記</h1>
-    <p class="lead">
-      特定商取引に関する法律（特定商取引法）第11条に基づき、以下の通り表記します。
-    </p>
+    <p class="lead">特定商取引に関する法律（特定商取引法）第11条に基づき、以下の通り表記します。</p>
 
     <div class="note">
-      <strong>※ ご購入前にご確認ください：</strong>
       本ページに記載の内容は書籍『コワーキングホリック』のオンライン販売（Stripe決済）および
       GRANDSLAMでの手渡し販売に関するものです。
     </div>
@@ -109,8 +98,7 @@
     <table>
       <tr>
         <th>販売業者</th>
-        <td><span class="placeholder">【事業者名を記入】</span><br>
-        ※ 個人事業主の場合は氏名（吉永 亮）を記入</td>
+        <td>吉永 亮（GRANDSLAM）</td>
       </tr>
       <tr>
         <th>代表者名</th>
@@ -118,22 +106,25 @@
       </tr>
       <tr>
         <th>所在地</th>
-        <td><span class="placeholder">【住所を記入】</span><br>
-        ※ 問い合わせ対応が可能な住所（GRANDSLAMの住所でも可）<br>
-        大阪府大阪市 <span class="placeholder">【番地まで記入】</span></td>
+        <td>
+          大阪府大阪市福島区 <span class="placeholder">【番地を記入】</span><br>
+          <small style="color:rgba(51,51,51,0.55);">※ GRANDSLAMの住所（番地まで）を記入してください</small>
+        </td>
       </tr>
       <tr>
         <th>電話番号</th>
-        <td><span class="placeholder">【電話番号を記入】</span><br>
-        ※ 問い合わせメール対応のみの場合「メールにてお問い合わせください」でも可</td>
+        <td>
+          <span class="placeholder">【電話番号を記入】</span><br>
+          <small style="color:rgba(51,51,51,0.55);">※ 公開したくない場合は「お問い合わせはメールにて承ります」でも可</small>
+        </td>
       </tr>
       <tr>
         <th>メールアドレス</th>
-        <td><span class="placeholder">【メールアドレスを記入】</span></td>
+        <td><span class="placeholder">【問い合わせ用メールアドレスを記入】</span></td>
       </tr>
       <tr>
         <th>販売URL</th>
-        <td><span class="placeholder">【このLPのURL】</span></td>
+        <td><span class="placeholder">【このLPの公開URL】</span></td>
       </tr>
       <tr>
         <th>商品名</th>
@@ -141,14 +132,14 @@
       </tr>
       <tr>
         <th>販売価格</th>
-        <td><span class="placeholder">【価格】</span> 円（税込）<br>
-        ※ 送料が別途かかる場合は「＋送料 <span class="placeholder">【金額】</span>円」と明記</td>
+        <td>1,980円（税込）</td>
       </tr>
       <tr>
         <th>送料</th>
         <td>
-          <strong>オンライン（Stripe）：</strong><span class="placeholder">【送料を記入】</span><br>
-          <strong>GRANDSLAM手渡し：</strong>送料無料（店頭お渡し）
+          <strong>オンライン（Stripe）：</strong><span class="placeholder">【送料を記入 / 例：全国一律370円】</span><br>
+          <strong>GRANDSLAM手渡し：</strong>送料無料（店頭お渡し）<br>
+          <strong>Amazon：</strong>Amazon所定の送料に準じます
         </td>
       </tr>
       <tr>
@@ -156,7 +147,8 @@
         <td>
           ・クレジットカード決済（Stripe）<br>
           　使用可能カード：Visa / Mastercard / American Express / JCB<br>
-          ・現金（GRANDSLAMにて手渡しの場合）
+          ・現金（GRANDSLAMにて手渡しの場合）<br>
+          ・Amazon所定の支払い方法（Amazon経由でご購入の場合）
         </td>
       </tr>
       <tr>
@@ -169,8 +161,9 @@
       <tr>
         <th>商品の引き渡し時期</th>
         <td>
-          ・Stripe決済（配送）：ご入金確認後 <span class="placeholder">【〇営業日】</span> 以内に発送<br>
-          ・GRANDSLAMでの手渡し：ご来店時にお渡し
+          ・Stripe決済（配送）：ご入金確認後 <span class="placeholder">【〇営業日以内】</span> に発送<br>
+          ・GRANDSLAMでの手渡し：ご来店時にお渡し<br>
+          ・Amazon：Amazon所定の配送スケジュールに準じます
         </td>
       </tr>
       <tr>
@@ -181,16 +174,11 @@
           メールにてご連絡ください。交換または返金にて対応いたします。
         </td>
       </tr>
-      <tr>
-        <th>動作環境</th>
-        <td>紙書籍のため、動作環境は不要です。</td>
-      </tr>
     </table>
 
     <div class="note">
-      <strong>※ 赤字の項目</strong>は販売開始前に必ず実際の情報を入力してください。
-      特定商取引法違反は行政処分・罰則の対象となります。
-      不明点は消費者庁のガイドラインまたは弁護士にご確認ください。
+      <strong style="color:var(--orange);">※ 赤字の項目</strong>は販売開始前に必ず実際の情報を入力してください。
+      特に「所在地」「電話番号（またはメール対応の旨）」「メールアドレス」は省略できない必須項目です。
     </div>
 
   </div>
