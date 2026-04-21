@@ -16,12 +16,13 @@
       --white: #FFFFFF;
       --mist: #F8F8F8;
     }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
       font-family: 'Noto Sans JP', 'Montserrat', sans-serif;
       color: var(--graphite);
       background: var(--white);
       overflow-x: hidden;
+      max-width: 100vw;
     }
     .reveal {
       opacity: 0; transform: translateY(36px);
@@ -33,14 +34,14 @@
     /* ══ HERO ══ */
     .hero {
       min-height: 100vh;
-      background: linear-gradient(160deg, #FFE135 0%, #FFCA28 55%, #F36E21 100%);
+      background: #FAFAF7;
       display: flex; align-items: center;
       position: relative; overflow: hidden;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
     }
     .hero::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.07) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 20%, rgba(255,255,255,0.07) 0%, transparent 50%);
+      background: radial-gradient(ellipse at 70% 50%, rgba(243,110,33,0.07) 0%, transparent 60%);
       pointer-events: none;
     }
     .hero-inner {
@@ -109,8 +110,8 @@
     @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
 
     /* ══ BAND ══ */
-    .band { background: var(--graphite); padding: 26px 0; overflow: hidden; }
-    .band-track { display: flex; gap: 56px; white-space: nowrap; animation: marquee 22s linear infinite; }
+    .band { background: var(--graphite); padding: 26px 0; overflow: hidden; width: 100%; }
+    .band-track { display: flex; gap: 56px; white-space: nowrap; animation: marquee 22s linear infinite; width: max-content; }
     .band-item { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; color:rgba(255,255,255,0.4); flex-shrink:0; }
     .band-item.accent { color: var(--orange); }
     @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
@@ -145,7 +146,7 @@
     }
     .theme-icon {
       width: 38px; height: 38px; border-radius: 10px;
-      background: linear-gradient(135deg,#F36E21,#FF9A3C);
+      background: var(--mist);
       display: flex; align-items: center; justify-content: center;
       font-size: 17px; flex-shrink: 0;
     }
@@ -173,7 +174,7 @@
     .keyword-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
     .keyword-card {
       background: var(--white); border-radius: 12px; padding: 36px 28px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05); border-left: 5px solid var(--orange);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
       transition: transform 0.2s, box-shadow 0.2s;
     }
     .keyword-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
@@ -272,6 +273,64 @@
     .yt-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
     .yt-sub { font-size: 14px; color: rgba(255,255,255,0.6); }
 
+    /* ══ GRANDSLAM ══ */
+    .grandslam-section { background: var(--white); padding: 100px 0; }
+    .grandslam-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .grandslam-label {
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.2em; color: var(--orange); margin-bottom: 16px;
+    }
+    .grandslam-title {
+      font-size: clamp(28px, 4vw, 42px); font-weight: 900;
+      line-height: 1.2; margin-bottom: 24px; color: var(--graphite);
+    }
+    .grandslam-desc p {
+      font-size: 16px; line-height: 1.95; color: var(--graphite); margin-bottom: 16px;
+    }
+    .grandslam-desc p:last-child { margin-bottom: 0; }
+    .grandslam-features {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0 32px;
+    }
+    .gf-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; font-weight: 500; color: var(--graphite);
+    }
+    .gf-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--orange); flex-shrink: 0;
+    }
+    .grandslam-visual {
+      background: var(--graphite); border-radius: 20px;
+      overflow: hidden; aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .grandslam-visual-inner {
+      text-align: center; padding: 40px;
+    }
+    .grandslam-logo-text {
+      font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 900;
+      color: var(--white); letter-spacing: 0.05em; margin-bottom: 8px;
+    }
+    .grandslam-logo-sub {
+      font-size: 13px; color: rgba(255,255,255,0.4); letter-spacing: 0.1em;
+    }
+    .grandslam-meta {
+      display: flex; flex-direction: column; gap: 8px; margin-top: 32px;
+    }
+    .gm-row {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 13px; color: rgba(255,255,255,0.6);
+    }
+    .gm-row svg { flex-shrink: 0; opacity: 0.6; }
+    @media(max-width:768px){
+      .grandslam-inner { grid-template-columns: 1fr; gap: 40px; }
+      .grandslam-visual { aspect-ratio: 16/9; }
+    }
+
     /* ══ CTA ══ */
     .cta-section {
       background: linear-gradient(135deg, #F36E21 0%, #FF9A3C 100%);
@@ -279,8 +338,9 @@
     }
     .cta-section::before {
       content:'COWORKING'; position:absolute; font-family:'Montserrat',sans-serif;
-      font-size:180px; font-weight:900; color:rgba(255,255,255,0.055);
+      font-size:clamp(80px,15vw,180px); font-weight:900; color:rgba(255,255,255,0.055);
       top:50%; left:50%; transform:translate(-50%,-50%); white-space:nowrap; pointer-events:none;
+      max-width:100%; overflow:hidden;
     }
     .cta-eyebrow { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; color:rgba(255,255,255,0.65); margin-bottom:20px; }
     .cta-title { font-size:clamp(30px,5vw,50px); font-weight:900; color:var(--white); line-height:1.35; margin-bottom:20px; }
@@ -703,6 +763,59 @@
   </div>
 </section>
 
+<!-- ══ GRANDSLAM ══ -->
+<section class="grandslam-section">
+  <div class="container">
+    <div class="grandslam-inner">
+      <div class="reveal">
+        <p class="grandslam-label">ABOUT THE PLACE</p>
+        <h2 class="grandslam-title">本の舞台——<br>GRANDSLAM</h2>
+        <div class="grandslam-desc">
+          <p>
+            大阪・福島駅すぐ。著者・吉永亮が自ら立ち上げ、5年間運営し続けているコワーキングスペースが「GRANDSLAM」です。
+          </p>
+          <p>
+            「ドラマチックコワーキング」をコンセプトに、ここでは毎日のように新しい出会いとプロジェクトが生まれています。
+            作業するだけでなく、仲間を作り、夢を語り、一緒に動き出すための場所です。
+          </p>
+        </div>
+        <div class="grandslam-features">
+          <div class="gf-item"><div class="gf-dot"></div>大阪・福島駅徒歩すぐ</div>
+          <div class="gf-item"><div class="gf-dot"></div>ドロップイン利用OK</div>
+          <div class="gf-item"><div class="gf-dot"></div>イベントスペース併設</div>
+          <div class="gf-item"><div class="gf-dot"></div>コミュニティ重視の運営</div>
+          <div class="gf-item"><div class="gf-dot"></div>月額会員プランあり</div>
+          <div class="gf-item"><div class="gf-dot"></div>書籍の手渡し購入も可</div>
+        </div>
+        <a href="https://grandslam.osaka/" target="_blank" rel="noopener" class="btn-primary" style="width:fit-content;">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          GRANDSLAMのサイトへ
+        </a>
+      </div>
+      <div class="grandslam-visual reveal">
+        <div class="grandslam-visual-inner">
+          <div class="grandslam-logo-text">GRAND<br>SLAM</div>
+          <div class="grandslam-logo-sub">grandslam.osaka</div>
+          <div class="grandslam-meta">
+            <div class="gm-row">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              大阪市福島区 / JR福島駅そば
+            </div>
+            <div class="gm-row">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              2019年創業
+            </div>
+            <div class="gm-row">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+              コワーキング・イベントスペース
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ══ CTA ══ -->
 <section class="cta-section" id="purchase">
   <div class="container">
@@ -712,6 +825,8 @@
       孤独から「つながる個人」へ——<br>
       コワーキングという生き方が、あなたの日常を変える。
     </p>
+    <p class="reveal" style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.12em;color:rgba(255,255,255,0.7);margin-bottom:8px;">PRICE</p>
+    <p class="reveal" style="font-family:'Montserrat',sans-serif;font-size:44px;font-weight:900;color:var(--white);line-height:1;margin-bottom:40px;">¥1,980<span style="font-size:16px;font-weight:500;margin-left:6px;opacity:0.7;">税込</span></p>
     <div class="cta-buttons reveal">
       <a href="#" class="btn-white">
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
@@ -755,6 +870,10 @@
         <div class="book-meta-item">
           <div class="book-meta-label">発行年</div>
           <div class="book-meta-value">2026年</div>
+        </div>
+        <div class="book-meta-item">
+          <div class="book-meta-label">定価</div>
+          <div class="book-meta-value">¥1,980（税込）</div>
         </div>
       </div>
     </div>
