@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>コワーキングホリック | 吉永亮 著</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #F36E21;
+      --graphite: #333333;
+      --blue: #00A0E9;
+      --white: #FFFFFF;
+      --mist: #F8F8F8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans JP', 'Montserrat', sans-serif;
+      color: var(--graphite);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* ══ HERO ══ */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #FFE135 0%, #FFCA28 55%, #F36E21 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.07) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.07) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      padding: 100px 0 80px;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      background: var(--graphite);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .hero-title {
+      font-size: clamp(52px, 8vw, 88px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--graphite);
+      margin-bottom: 8px;
+    }
+    .hero-title-en {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 700;
+      color: var(--orange);
+      letter-spacing: 0.06em;
+      margin-bottom: 28px;
+    }
+    .hero-copy {
+      font-size: 17px;
+      line-height: 2;
+      color: var(--graphite);
+      margin-bottom: 16px;
+      max-width: 480px;
+      font-weight: 500;
+    }
+    .hero-copy strong { color: var(--orange); }
+    .hero-copy-sub {
+      font-size: 15px;
+      line-height: 1.9;
+      color: rgba(51,51,51,0.75);
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+    .hero-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+    .hero-author-label { font-size: 12px; font-weight: 500; color: rgba(51,51,51,0.6); letter-spacing: 0.1em; }
+    .hero-author-divider { width: 1px; height: 24px; background: rgba(51,51,51,0.3); }
+    .hero-author-name { font-size: 22px; font-weight: 700; }
+    .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--orange); color: var(--white);
+      font-size: 16px; font-weight: 700; padding: 18px 40px;
+      border-radius: 100px; text-decoration: none; letter-spacing: 0.04em;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 8px 32px rgba(243,110,33,0.4);
+    }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 10px;
+      border: 2px solid var(--orange); color: var(--orange);
+      font-size: 15px; font-weight: 700; padding: 16px 32px;
+      border-radius: 100px; text-decoration: none; background: transparent;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { background: var(--orange); color: var(--white); }
+
+    .hero-book { display: flex; justify-content: center; align-items: center; }
+    .book-cover-svg {
+      width: 320px; max-width: 100%; border-radius: 8px;
+      box-shadow: 20px 30px 80px rgba(0,0,0,0.28);
+      transform: perspective(800px) rotateY(-6deg);
+      transition: transform 0.4s ease; display: block;
+    }
+    .book-cover-svg:hover { transform: perspective(800px) rotateY(0deg) scale(1.02); }
+
+    .scroll-indicator {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: rgba(51,51,51,0.5); font-size: 10px; letter-spacing: 0.14em;
+      font-family: 'Montserrat', sans-serif; font-weight: 600;
+    }
+    .scroll-indicator span { animation: bounce 1.8s infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+    /* ══ BAND ══ */
+    .band { background: var(--graphite); padding: 26px 0; overflow: hidden; }
+    .band-track {
+      display: flex; gap: 56px; white-space: nowrap;
+      animation: marquee 22s linear infinite;
+    }
+    .band-item { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; color:rgba(255,255,255,0.45); flex-shrink:0; }
+    .band-item.accent { color: var(--orange); }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ══ SECTIONS ══ */
+    .section { padding: 100px 0; }
+    .section-alt { background: var(--mist); }
+
+    .section-title {
+      font-size: 32px; font-weight: 700; color: var(--graphite);
+      padding-bottom: 14px; border-bottom: 3px solid var(--orange);
+      display: inline-block; margin-bottom: 48px; letter-spacing: 0.03em;
+    }
+    .section-title-center {
+      text-align: center; display: block; border-bottom: none;
+      position: relative; margin-bottom: 56px;
+    }
+    .section-title-center::after {
+      content: ''; display: block; width: 56px; height: 4px;
+      background: var(--orange); border-radius: 2px; margin: 14px auto 0;
+    }
+
+    /* ══ INTRO ══ */
+    .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .intro-text p { font-size: 16px; line-height: 1.95; margin-bottom: 20px; }
+    .intro-text p:last-child { margin-bottom: 0; }
+    .intro-text strong { color: var(--orange); }
+
+    .theme-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+    .theme-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: var(--white); border-radius: 12px; padding: 24px 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .theme-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg,#F36E21,#FF9A3C);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .theme-body {}
+    .theme-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .theme-desc { font-size: 14px; line-height: 1.7; color: rgba(51,51,51,0.7); }
+
+    /* ══ PROBLEM ══ */
+    .quote-section { background: var(--graphite); padding: 100px 0; }
+    .quote-section .section-title { color: var(--white); }
+    .quote-list { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 60px; }
+    .quote-card {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; padding: 28px 24px;
+    }
+    .quote-card::before {
+      content: '"'; font-family:'Montserrat',sans-serif; font-size:48px; font-weight:900;
+      color: var(--orange); line-height:1; display:block; margin-bottom:10px;
+    }
+    .quote-card p { font-size:15px; line-height:1.85; color:rgba(255,255,255,0.82); }
+    .quote-answer { text-align:center; }
+    .quote-answer p { font-size:20px; font-weight:700; color:var(--white); line-height:1.8; }
+    .quote-answer strong { color:var(--orange); font-size:26px; }
+
+    /* ══ KEYWORDS ══ */
+    .keyword-section { padding: 100px 0; }
+    .keyword-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .keyword-card {
+      background: var(--white); border-radius: 12px; padding: 36px 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      border-left: 5px solid var(--orange);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .keyword-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+    .keyword-label {
+      font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700;
+      letter-spacing:0.18em; color:var(--orange); margin-bottom:10px;
+    }
+    .keyword-name { font-size:22px; font-weight:900; margin-bottom:14px; line-height:1.3; }
+    .keyword-desc { font-size:15px; line-height:1.8; color:rgba(51,51,51,0.72); }
+
+    /* ══ CONTENTS ══ */
+    .contents-list { display: flex; flex-direction: column; gap: 0; }
+    .chapter-row {
+      display: grid; grid-template-columns: 120px 1fr;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      padding: 32px 0; gap: 32px; align-items: start;
+      transition: background 0.15s;
+    }
+    .chapter-row:first-child { border-top: 1px solid rgba(0,0,0,0.07); }
+    .chapter-row:hover { background: var(--mist); padding-left: 16px; border-radius: 8px; }
+    .chapter-num {
+      font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700;
+      letter-spacing:0.15em; color:var(--orange); padding-top: 3px;
+    }
+    .chapter-body {}
+    .chapter-title { font-size:20px; font-weight:700; margin-bottom:8px; }
+    .chapter-desc { font-size:15px; line-height:1.75; color:rgba(51,51,51,0.7); }
+    .chapter-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .chapter-tag {
+      font-size:12px; font-weight:500; padding:4px 12px;
+      background:rgba(243,110,33,0.1); color:var(--orange);
+      border-radius:100px;
+    }
+
+    /* ══ AUTHOR ══ */
+    .author-inner { display:grid; grid-template-columns:260px 1fr; gap:56px; align-items:start; }
+    .author-avatar {
+      width:100%; aspect-ratio:1; border-radius:16px;
+      background: linear-gradient(135deg,#FFE135,#F36E21);
+      display:flex; align-items:center; justify-content:center;
+      font-size:88px; box-shadow:0 8px 40px rgba(243,110,33,0.22);
+    }
+    .author-role { font-size:12px; font-weight:700; letter-spacing:0.15em; color:var(--orange); margin-bottom:8px; }
+    .author-name-ja { font-size:36px; font-weight:900; margin-bottom:4px; }
+    .author-name-en { font-family:'Montserrat',sans-serif; font-size:15px; font-weight:600; color:rgba(51,51,51,0.45); letter-spacing:0.1em; margin-bottom:28px; }
+    .author-bio p { font-size:16px; line-height:1.95; margin-bottom:16px; }
+    .author-bio p:last-child { margin-bottom:0; }
+    .author-tags { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+    .tag { background:var(--mist); border:1px solid rgba(0,0,0,0.08); border-radius:100px; padding:6px 16px; font-size:13px; font-weight:500; }
+
+    /* ══ CTA ══ */
+    .cta-section {
+      background: linear-gradient(135deg, #F36E21 0%, #FF9A3C 100%);
+      padding: 120px 0; text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-section::before {
+      content:'COWORKING'; position:absolute; font-family:'Montserrat',sans-serif;
+      font-size:180px; font-weight:900; color:rgba(255,255,255,0.055);
+      top:50%; left:50%; transform:translate(-50%,-50%); white-space:nowrap; pointer-events:none;
+    }
+    .cta-eyebrow { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; color:rgba(255,255,255,0.65); margin-bottom:20px; }
+    .cta-title { font-size:clamp(30px,5vw,50px); font-weight:900; color:var(--white); line-height:1.35; margin-bottom:20px; }
+    .cta-sub { font-size:17px; color:rgba(255,255,255,0.88); margin-bottom:48px; line-height:1.8; }
+    .cta-buttons { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+    .btn-white {
+      display:inline-flex; align-items:center; gap:10px;
+      background:var(--white); color:var(--orange);
+      font-size:16px; font-weight:700; padding:18px 44px;
+      border-radius:100px; text-decoration:none; letter-spacing:0.04em;
+      transition:transform 0.2s, box-shadow 0.2s;
+      box-shadow:0 8px 32px rgba(0,0,0,0.15);
+    }
+    .btn-white:hover { transform:translateY(-2px); box-shadow:0 16px 40px rgba(0,0,0,0.2); }
+    .btn-white-ghost {
+      display:inline-flex; align-items:center; gap:10px;
+      border:2px solid rgba(255,255,255,0.65); color:var(--white);
+      font-size:15px; font-weight:700; padding:16px 36px;
+      border-radius:100px; text-decoration:none; background:transparent;
+      transition:background 0.2s;
+    }
+    .btn-white-ghost:hover { background:rgba(255,255,255,0.15); }
+
+    /* ══ PUBLISHER ══ */
+    .publisher { background:var(--mist); padding:44px 0; }
+    .publisher-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px; }
+    .publisher-info { display:flex; align-items:center; gap:18px; }
+    .publisher-logo {
+      width:44px; height:44px; background:var(--graphite); border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Montserrat',sans-serif; font-size:10px; font-weight:700; color:var(--white);
+    }
+    .publisher-name { font-size:14px; font-weight:700; }
+    .publisher-sub { font-size:12px; color:rgba(51,51,51,0.55); margin-top:2px; }
+    .book-meta { display:flex; gap:28px; flex-wrap:wrap; }
+    .book-meta-item { text-align:center; }
+    .book-meta-label { font-size:11px; font-weight:700; letter-spacing:0.1em; color:rgba(51,51,51,0.45); margin-bottom:4px; font-family:'Montserrat',sans-serif; }
+    .book-meta-value { font-size:15px; font-weight:700; }
+
+    footer { background:var(--graphite); padding:36px 0; text-align:center; }
+    footer p { font-size:12px; color:rgba(255,255,255,0.35); letter-spacing:0.08em; }
+
+    /* ══ RESPONSIVE ══ */
+    @media(max-width:768px){
+      .section{padding:72px 0;}
+      .container{padding:0 16px;}
+      .hero-inner{grid-template-columns:1fr;gap:36px;padding:80px 0 60px;text-align:center;}
+      .hero-book{order:-1;}
+      .book-cover-svg{width:220px;transform:none;}
+      .hero-cta{justify-content:center;}
+      .hero-author{justify-content:center;}
+      .intro-grid{grid-template-columns:1fr;gap:48px;}
+      .quote-list{grid-template-columns:1fr;}
+      .keyword-grid{grid-template-columns:1fr;}
+      .chapter-row{grid-template-columns:80px 1fr;gap:20px;padding:24px 0;}
+      .author-inner{grid-template-columns:1fr;}
+      .author-avatar{width:140px;height:140px;font-size:60px;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <span class="hero-eyebrow">Galaxy Books — 新刊発売</span>
+          <h1 class="hero-title">コワーキング<br>ホリック</h1>
+          <p class="hero-title-en">Coworking-Holic</p>
+          <p class="hero-copy">
+            「コワーキングスペースは<strong>社会に必要なのか</strong>」——<br>
+            コロナ禍の空っぽの空間で、一人問い続けた答え。
+          </p>
+          <p class="hero-copy-sub">
+            大阪・福島のコワーキングスペース「GRANDSLAM」を運営する著者が、
+            5年間の苦難と喜びを経て辿り着いた、場所を通じた「小さな社会インフラ」の物語。
+          </p>
+          <div class="hero-author">
+            <span class="hero-author-label">著者</span>
+            <div class="hero-author-divider"></div>
+            <span class="hero-author-name">吉永 亮</span>
+          </div>
+          <div class="hero-cta">
+            <a href="#purchase" class="btn-primary">
+              <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              今すぐ購入する
+            </a>
+            <a href="#contents" class="btn-ghost">目次を見る</a>
+          </div>
+        </div>
+        <div class="hero-book">
+          <svg class="book-cover-svg" viewBox="0 0 320 460" xmlns="http://www.w3.org/2000/svg">
+            <rect width="320" height="460" rx="6" fill="#FFD700"/>
+            <g opacity="0.16" fill="#CC8800">
+              <circle cx="28" cy="38" r="16"/><circle cx="290" cy="70" r="12"/>
+              <circle cx="55" cy="190" r="20"/><circle cx="280" cy="210" r="14"/>
+              <circle cx="38" cy="350" r="11"/><circle cx="295" cy="390" r="18"/>
+              <path d="M250 44 Q268 26 286 44 Q268 62 250 44Z"/>
+              <path d="M18 260 Q36 242 54 260 Q36 278 18 260Z"/>
+              <path d="M95 420 Q113 402 131 420 Q113 438 95 420Z"/>
+              <rect x="240" y="340" width="18" height="18" rx="3" transform="rotate(-15 240 340)"/>
+              <rect x="110" y="16" width="14" height="14" rx="2" transform="rotate(20 110 16)"/>
+            </g>
+            <!-- Title area -->
+            <rect x="0" y="94" width="210" height="228" fill="rgba(0,0,0,0.86)" rx="0"/>
+            <text x="14" y="165" font-family="'Noto Sans JP',sans-serif" font-size="52" font-weight="900" fill="white">コワー</text>
+            <text x="14" y="228" font-family="'Noto Sans JP',sans-serif" font-size="52" font-weight="900" fill="white">キング</text>
+            <text x="14" y="300" font-family="'Noto Sans JP',sans-serif" font-size="52" font-weight="900" fill="white">ホリック</text>
+            <!-- EN subtitle rotated -->
+            <text x="218" y="130" font-family="Montserrat,sans-serif" font-size="10.5" font-weight="700" fill="#F36E21" transform="rotate(90 218 130)" text-anchor="middle">Coworking-Holic</text>
+            <!-- Ladder -->
+            <g stroke="#333" stroke-width="2.2" fill="none" transform="translate(190,108)">
+              <line x1="18" y1="0" x2="8" y2="195"/>
+              <line x1="46" y1="0" x2="56" y2="195"/>
+              <line x1="16" y1="28" x2="48" y2="28"/>
+              <line x1="15" y1="58" x2="49" y2="58"/>
+              <line x1="13" y1="88" x2="50" y2="88"/>
+              <line x1="12" y1="118" x2="51" y2="118"/>
+              <line x1="11" y1="148" x2="52" y2="148"/>
+              <line x1="10" y1="178" x2="53" y2="178"/>
+              <circle cx="30" cy="48" r="7" fill="#333" stroke="none"/>
+              <line x1="30" y1="55" x2="30" y2="90"/>
+              <line x1="30" y1="67" x2="16" y2="53"/>
+              <line x1="30" y1="67" x2="46" y2="60"/>
+              <line x1="30" y1="90" x2="20" y2="114"/>
+              <line x1="30" y1="90" x2="42" y2="112"/>
+            </g>
+            <text x="22" y="430" font-family="'Noto Sans JP',sans-serif" font-size="22" font-weight="700" fill="#333">吉永 亮</text>
+            <circle cx="285" cy="424" r="20" fill="none" stroke="#333" stroke-width="1.4"/>
+            <text x="285" y="420" text-anchor="middle" font-family="Montserrat" font-size="7.5" font-weight="700" fill="#333">Galaxy</text>
+            <text x="285" y="431" text-anchor="middle" font-family="Montserrat" font-size="7.5" font-weight="700" fill="#333">Books</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator"><span>▼</span><small>SCROLL</small></div>
+  </section>
+
+  <!-- BAND -->
+  <div class="band">
+    <div class="band-track">
+      <span class="band-item accent">COWORKING-HOLIC</span>
+      <span class="band-item">吉永 亮 著</span>
+      <span class="band-item accent">GRANDSLAM</span>
+      <span class="band-item">コワーキングは、社会インフラである</span>
+      <span class="band-item accent">Galaxy Books</span>
+      <span class="band-item">エアポート構想</span>
+      <span class="band-item accent">ドラマチックコワーキング</span>
+      <span class="band-item">大阪・福島発</span>
+      <span class="band-item accent">COWORKING-HOLIC</span>
+      <span class="band-item">吉永 亮 著</span>
+      <span class="band-item accent">GRANDSLAM</span>
+      <span class="band-item">コワーキングは、社会インフラである</span>
+      <span class="band-item accent">Galaxy Books</span>
+      <span class="band-item">エアポート構想</span>
+      <span class="band-item accent">ドラマチックコワーキング</span>
+      <span class="band-item">大阪・福島発</span>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <section class="section">
+    <div class="container">
+      <div class="intro-grid">
+        <div class="intro-text reveal">
+          <span class="section-title">この本について</span>
+          <p>
+            2020年、コロナ禍。誰もいない広いスペースで、著者は自問しました。
+            <strong>「コワーキングスペースは、社会に本当に必要なのか」</strong>と。
+          </p>
+          <p>
+            大阪・福島で「GRANDSLAM」を運営して5年——
+            JR西日本不動産との縁による移転という大きな転機を経て、
+            著者が辿り着いた答えは「<strong>ここは家でも職場でもないサードプレイス</strong>」であり、
+            孤独な個人が「つながる個人」へと変わるための
+            小さな社会インフラであるという確信でした。
+          </p>
+          <p>
+            本書はその実体験に基づいた、場所と人とコミュニティの物語です。
+          </p>
+        </div>
+        <div class="reveal">
+          <ul class="theme-list">
+            <li class="theme-item">
+              <div class="theme-icon">🏗️</div>
+              <div class="theme-body">
+                <div class="theme-title">産業を創るという覚悟</div>
+                <div class="theme-desc">コワーキングを、自動車や医療のような社会に不可欠な「産業」へと昇華させる。その覚悟と実践を語る。</div>
+              </div>
+            </li>
+            <li class="theme-item">
+              <div class="theme-icon">🤝</div>
+              <div class="theme-body">
+                <div class="theme-title">「顧客」から「仲間」へ</div>
+                <div class="theme-desc">サービスを提供する側と受ける側の境界を越え、共にイベントを企画し夢を語り合う仲間のコミュニティ作り。</div>
+              </div>
+            </li>
+            <li class="theme-item">
+              <div class="theme-icon">🔨</div>
+              <div class="theme-body">
+                <div class="theme-title">不完全さの価値（プロセスエコノミー）</div>
+                <div class="theme-desc">DIYで内装を作り、利用者を巻き込んで場をアップデートする。完成より「過程」そのものを価値とする哲学。</div>
+              </div>
+            </li>
+            <li class="theme-item">
+              <div class="theme-icon">🌐</div>
+              <div class="theme-body">
+                <div class="theme-title">リアルな場所の意義</div>
+                <div class="theme-desc">AIやDXが進む時代だからこそ、偶然の出会いや温度感のある「リアルな場所」のつながりが人生を変える。</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="quote-section">
+    <div class="container">
+      <span class="section-title reveal">こんな悩みはありませんか？</span>
+      <div class="quote-list">
+        <div class="quote-card reveal">
+          <p>在宅ワークが続いて、孤独を感じるようになった。誰かと一緒に働きたいけど、どこへ行けばいいかわからない。</p>
+        </div>
+        <div class="quote-card reveal">
+          <p>新しいビジネスのアイデアはあるけれど、相談できる仲間がいない。自分一人では限界を感じている。</p>
+        </div>
+        <div class="quote-card reveal">
+          <p>コワーキングスペースに興味はあるけど、コストに見合うのか、どんな人が来るのか、よくわからない。</p>
+        </div>
+      </div>
+      <div class="quote-answer reveal">
+        <p>その答えは、<strong>「場所」の選び方</strong>にあります。<br>
+        コワーキングは単なるスペースではなく、<strong>あなたの可能性を広げるコミュニティ</strong>です。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEYWORDS -->
+  <section class="keyword-section section-alt">
+    <div class="container">
+      <h2 class="section-title section-title-center reveal">本書のキーワード</h2>
+      <div class="keyword-grid">
+        <div class="keyword-card reveal">
+          <div class="keyword-label">KEYWORD 01</div>
+          <div class="keyword-name">エアポート構想</div>
+          <div class="keyword-desc">ここから飛び立ち、また戻ってくる中継点のような場所。コワーキングスペースを「人生の空港」として捉える著者独自のビジョン。</div>
+        </div>
+        <div class="keyword-card reveal">
+          <div class="keyword-label">KEYWORD 02</div>
+          <div class="keyword-name">ドラマチックコワーキング</div>
+          <div class="keyword-desc">日常の中で偶然の出会いや挑戦のきっかけが生まれる、ドラマのような場。GRANDSLAMが目指すコワーキングの姿。</div>
+        </div>
+        <div class="keyword-card reveal">
+          <div class="keyword-label">KEYWORD 03</div>
+          <div class="keyword-name">忘れもの</div>
+          <div class="keyword-desc">利用者が壁にサインやメッセージを残すことで、場所に物語を宿らせる仕掛け。その空間に生きた証を刻む、GRANDSLAMの文化。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENTS -->
+  <section class="section" id="contents">
+    <div class="container">
+      <h2 class="section-title section-title-center reveal">目次</h2>
+      <div class="contents-list reveal">
+        <div class="chapter-row">
+          <div class="chapter-num">第1章</div>
+          <div class="chapter-body">
+            <div class="chapter-title">僕たちのはじまり</div>
+            <div class="chapter-desc">起業の決意、コロナ禍での苦悩、誰もいない空間での自問自答。JR西日本不動産との縁がもたらした移転という転機の裏側。</div>
+            <div class="chapter-tags">
+              <span class="chapter-tag">起業</span>
+              <span class="chapter-tag">コロナ禍</span>
+              <span class="chapter-tag">移転</span>
+            </div>
+          </div>
+        </div>
+        <div class="chapter-row">
+          <div class="chapter-num">第2章</div>
+          <div class="chapter-body">
+            <div class="chapter-title">GRANDSLAMメソッドの公開</div>
+            <div class="chapter-desc">ビジョンの描き方、内装におけるプロセスエコノミーの実践、そして集客の考え方。5年間で磨き上げたノウハウを惜しみなく公開。</div>
+            <div class="chapter-tags">
+              <span class="chapter-tag">プロセスエコノミー</span>
+              <span class="chapter-tag">ビジョン設計</span>
+              <span class="chapter-tag">集客</span>
+            </div>
+          </div>
+        </div>
+        <div class="chapter-row">
+          <div class="chapter-num">第3章</div>
+          <div class="chapter-body">
+            <div class="chapter-title">実際どんなことが生まれたか</div>
+            <div class="chapter-desc">コミュニティ形成の秘訣、SNS発信の戦略、パートナーシップの築き方。「顧客」が「仲間」へと変わっていく過程のリアル。</div>
+            <div class="chapter-tags">
+              <span class="chapter-tag">コミュニティ</span>
+              <span class="chapter-tag">SNS発信</span>
+              <span class="chapter-tag">パートナーシップ</span>
+            </div>
+          </div>
+        </div>
+        <div class="chapter-row">
+          <div class="chapter-num">第4章</div>
+          <div class="chapter-body">
+            <div class="chapter-title">実際どんなことが生まれたか ‐具体例‐</div>
+            <div class="chapter-desc">つながりが信頼に変わり、仕事が生まれていく具体的なプロセス。エアポート構想・ドラマチックコワーキング・忘れものという３つのキーワードで解き明かす。</div>
+            <div class="chapter-tags">
+              <span class="chapter-tag">エアポート構想</span>
+              <span class="chapter-tag">ドラマチックコワーキング</span>
+              <span class="chapter-tag">忘れもの</span>
+            </div>
+          </div>
+        </div>
+        <div class="chapter-row">
+          <div class="chapter-num">第5章</div>
+          <div class="chapter-body">
+            <div class="chapter-title">イベントが生み出す波及効果</div>
+            <div class="chapter-desc">イベントスペースとのシナジー、ファンコミュニティの構築。一つのイベントが場所の外へと広がり、新たな縁を呼ぶメカニズム。</div>
+            <div class="chapter-tags">
+              <span class="chapter-tag">イベント</span>
+              <span class="chapter-tag">ファン形成</span>
+              <span class="chapter-tag">波及効果</span>
+            </div>
+          </div>
+        </div>
+        <div class="chapter-row">
+          <div class="chapter-num">第6章</div>
+          <div class="chapter-body">
+            <div class="chapter-title">コワーキングスペースのこれから</div>
+            <div class="chapter-desc">AI時代の仲間作り、アナログとデジタルの融合、未来の展望。変わりゆく社会の中でコワーキングが果たすべき新しい役割。</div>
+            <div class="chapter-tags">
+              <span class="chapter-tag">AI時代</span>
+              <span class="chapter-tag">アナログ×デジタル</span>
+              <span class="chapter-tag">未来像</span>
+            </div>
+          </div>
+        </div>
+        <div class="chapter-row">
+          <div class="chapter-num">終章</div>
+          <div class="chapter-body">
+            <div class="chapter-title">感謝とこれからの物語</div>
+            <div class="chapter-desc">ここまで歩んできた全ての仲間への感謝と、まだ見ぬ未来の仲間へのメッセージ。物語は続く。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTHOR -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title section-title-center reveal">著者プロフィール</h2>
+      <div class="author-inner reveal">
+        <div class="author-avatar">🧑‍💻</div>
+        <div class="author-meta">
+          <p class="author-role">AUTHOR</p>
+          <h2 class="author-name-ja">吉永 亮</h2>
+          <p class="author-name-en">Ryo Yoshinaga</p>
+          <div class="author-bio">
+            <p>
+              大阪・福島のコワーキングスペース「GRANDSLAM」ファウンダー。
+              コロナ禍という最悪のタイミングで開業し、誰もいないスペースで
+              「この場所は社会に必要なのか」と問い続けた。
+            </p>
+            <p>
+              JR西日本不動産との縁による移転を機に場を再生。
+              「顧客ではなく仲間を作る」という哲学のもと、
+              DIYの内装づくりや利用者参加型のイベント運営など、
+              プロセスそのものを価値とする「プロセスエコノミー」を実践する。
+            </p>
+            <p>
+              「コワーキングを産業にする」をビジョンに掲げ、
+              リアルな場所でしか生まれないつながりの可能性を発信し続けている。
+            </p>
+          </div>
+          <div class="author-tags">
+            <span class="tag">GRANDSLAM（大阪・福島）</span>
+            <span class="tag">コワーキングスペース運営</span>
+            <span class="tag">コミュニティデザイン</span>
+            <span class="tag">プロセスエコノミー</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="purchase">
+    <div class="container">
+      <p class="cta-eyebrow reveal">COWORKING-HOLIC / Galaxy Books</p>
+      <h2 class="cta-title reveal">さあ、はしごを登ろう。<br>あなたの場所が、待っている。</h2>
+      <p class="cta-sub reveal">
+        孤独から「つながる個人」へ——<br>
+        コワーキングという生き方が、あなたの日常を変える。
+      </p>
+      <div class="cta-buttons reveal">
+        <a href="#" class="btn-white">
+          <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Amazonで購入
+        </a>
+        <a href="#" class="btn-white-ghost">楽天ブックスで購入</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLISHER -->
+  <div class="publisher">
+    <div class="container">
+      <div class="publisher-inner">
+        <div class="publisher-info">
+          <div class="publisher-logo">GB</div>
+          <div>
+            <div class="publisher-name">Galaxy Books</div>
+            <div class="publisher-sub">クリエイターのための出版レーベル</div>
+          </div>
+        </div>
+        <div class="book-meta">
+          <div class="book-meta-item">
+            <div class="book-meta-label">著者</div>
+            <div class="book-meta-value">吉永 亮</div>
+          </div>
+          <div class="book-meta-item">
+            <div class="book-meta-label">出版</div>
+            <div class="book-meta-value">Galaxy Books</div>
+          </div>
+          <div class="book-meta-item">
+            <div class="book-meta-label">発行年</div>
+            <div class="book-meta-value">2026年</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Galaxy Books / Ryo Yoshinaga. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    document.querySelectorAll('.chapter-row').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 0.06}s`;
+    });
+  </script>
+</body>
+</html>
