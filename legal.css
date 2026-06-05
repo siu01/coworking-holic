@@ -1,7 +1,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root { --orange: #F36E21; --graphite: #333333; --mist: #F8F8F8; --line: rgba(0,0,0,0.08); }
 body { font-family: 'Noto Sans JP', sans-serif; color: var(--graphite); background: #fff; }
-.container { max-width: 820px; margin: 0 auto; padding: 0 24px; }
+.container { width: 100%; max-width: 820px; margin: 0 auto; padding: 0 24px; }
 
 header {
   background: var(--graphite);
@@ -39,6 +39,11 @@ h1 {
 }
 h2 { font-size: 20px; margin: 40px 0 14px; }
 p { font-size: 15px; line-height: 1.85; margin-bottom: 14px; }
+h1, h2, p, .note, .legal-list li, .legal-nav a, .header-logo, .back-link {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 .lead {
   font-size: 14px;
   color: rgba(51,51,51,0.66);
@@ -46,7 +51,7 @@ p { font-size: 15px; line-height: 1.85; margin-bottom: 14px; }
   margin-bottom: 40px;
 }
 
-table { width: 100%; border-collapse: collapse; margin: 28px 0 40px; }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 28px 0 40px; }
 th, td {
   padding: 18px 20px;
   border-bottom: 1px solid var(--line);
@@ -54,6 +59,8 @@ th, td {
   line-height: 1.75;
   vertical-align: top;
   text-align: left;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 th { width: 210px; background: var(--mist); font-weight: 700; white-space: nowrap; }
 td { background: #fff; }
@@ -64,6 +71,8 @@ tr:last-child th, tr:last-child td { border-bottom: none; }
   border: 1px solid rgba(243,110,33,0.22);
   border-radius: 10px;
   padding: 18px 22px;
+  width: 100%;
+  max-width: 100%;
   font-size: 14px;
   line-height: 1.85;
   color: rgba(51,51,51,0.78);
@@ -87,8 +96,24 @@ footer p {
 }
 
 @media(max-width:600px) {
+  .container { padding: 0 18px; }
   .header-inner { align-items: flex-start; flex-direction: column; }
-  th { width: 118px; }
+  h1 { font-size: 24px; line-height: 1.35; }
+  h1, h2, p, .note, th, td, .legal-list li, .legal-nav a {
+    line-break: strict;
+    word-break: normal;
+  }
+  .note { padding: 16px 18px; }
+  table, tbody, tr, th, td { display: block; width: 100%; }
+  table { table-layout: auto; }
+  tr { border-bottom: 1px solid var(--line); }
+  th {
+    border-bottom: none;
+    padding-bottom: 6px;
+    white-space: normal;
+  }
+  td { padding-top: 0; border-bottom: none; }
+  tr:last-child { border-bottom: none; }
   th, td { padding: 14px 12px; font-size: 14px; }
   main { padding-top: 48px; }
 }
